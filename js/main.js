@@ -164,7 +164,7 @@ function isValidPhone(phone) {
 }
 
 // Success message
-function showSuccessMessage() {
+function showSuccessMessage(messageText = '✅ 상담 신청이 완료되었습니다!<br>빠른 시일 내에 연락드리겠습니다.') {
     const message = document.createElement('div');
     message.className = 'success-message';
     message.innerHTML = `
@@ -180,8 +180,7 @@ function showSuccessMessage() {
             z-index: 10000;
             animation: slideIn 0.3s ease;
         ">
-            ✅ 상담 신청이 완료되었습니다!<br>
-            빠른 시일 내에 연락드리겠습니다.
+            ${messageText}
         </div>
     `;
     
