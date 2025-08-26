@@ -1,0 +1,5 @@
+[33m0e4b95c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m Fix chat widget CSS styles - update to match improved design
+[33m53e8baf[m Fix showSuccessMessage function to accept custom messages for different actions
+[33m3766c19[m Fix copy link message - update fallback copy function text
+[33m7d6d149[m Redesign KakaoTalk chat widget with modern UI and better UX
+[33macc4d34[m Update KakaoTalk links to open chat room for better customer service

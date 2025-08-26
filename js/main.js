@@ -245,17 +245,43 @@ function initChatWidget() {
         });
     }
     
-    // 카카오톡 오픈채팅 링크 복사 기능
+    // 카카오톡 오픈채팅 링크 복사 기능 (개선된 버전)
     window.copyKakaoLink = function() {
         const kakaoLink = 'https://open.kakao.com/o/sSbS9AOh';
-        if (navigator.clipboard) {
+        
+        // 복사 성공 시 시각적 피드백을 위한 버튼 상태 변경
+        const copyButton = document.querySelector('.chat-widget__option--secondary');
+        const originalContent = copyButton.innerHTML;
+        
+        // 버튼을 복사 중 상태로 변경
+        copyButton.innerHTML = `
+            <div class="chat-widget__option-icon">✅</div>
+            <div class="chat-widget__option-content">
+                <h6>복사 완료!</h6>
+                <p>링크가 클립보드에 복사되었습니다</p>
+            </div>
+            <div class="chat-widget__option-arrow">✓</div>
+        `;
+        copyButton.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
+        copyButton.style.color = '#fff';
+        
+        // 복사 시도
+        if (navigator.clipboard && window.isSecureContext) {
             navigator.clipboard.writeText(kakaoLink).then(() => {
-                showSuccessMessage('카카오톡 상담 링크가 클립보드에 복사되었습니다!');
-            }).catch(() => {
-                fallbackCopyTextToClipboard(kakaoLink);
+                showSuccessMessage('✅ 카카오톡 상담 링크가 클립보드에 복사되었습니다!\n\n링크: ' + kakaoLink);
+                
+                // 3초 후 버튼 원래 상태로 복원
+                setTimeout(() => {
+                    copyButton.innerHTML = originalContent;
+                    copyButton.style.background = '';
+                    copyButton.style.color = '';
+                }, 3000);
+            }).catch((err) => {
+                console.error('클립보드 복사 실패:', err);
+                fallbackCopyTextToClipboard(kakaoLink, copyButton, originalContent);
             });
         } else {
-            fallbackCopyTextToClipboard(kakaoLink);
+            fallbackCopyTextToClipboard(kakaoLink, copyButton, originalContent);
         }
     };
 
@@ -273,50 +299,192 @@ function initChatWidget() {
         }
     };
 
-    // 폴백 복사 함수
-    function fallbackCopyTextToClipboard(text) {
+    // 폴백 복사 함수 (개선된 버전)
+    function fallbackCopyTextToClipboard(text, copyButton, originalContent) {
         const textArea = document.createElement('textarea');
         textArea.value = text;
-        textArea.style.top = '0';
-        textArea.style.left = '0';
-        textArea.style.position = 'fixed';
+        textArea.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 2em;
+            height: 2em;
+            padding: 0;
+            border: none;
+            outline: none;
+            boxShadow: none;
+            background: transparent;
+            opacity: 0;
+            z-index: -1;
+        `;
         document.body.appendChild(textArea);
         textArea.focus();
         textArea.select();
         
         try {
-            document.execCommand('copy');
-            showSuccessMessage('카카오톡 상담 링크가 클립보드에 복사되었습니다!');
+            const successful = document.execCommand('copy');
+            if (successful) {
+                showSuccessMessage('✅ 카카오톡 상담 링크가 클립보드에 복사되었습니다!\n\n링크: ' + text);
+                
+                // 3초 후 버튼 원래 상태로 복원
+                setTimeout(() => {
+                    if (copyButton && originalContent) {
+                        copyButton.innerHTML = originalContent;
+                        copyButton.style.background = '';
+                        copyButton.style.color = '';
+                    }
+                }, 3000);
+            } else {
+                showErrorMessage('❌ 링크 복사에 실패했습니다.\n\n수동으로 복사해주세요:\n' + text);
+                
+                // 버튼을 실패 상태로 변경
+                if (copyButton) {
+                    copyButton.innerHTML = `
+                        <div class="chat-widget__option-icon">❌</div>
+                        <div class="chat-widget__option-content">
+                            <h6>복사 실패</h6>
+                            <p>수동으로 복사해주세요</p>
+                        </div>
+                        <div class="chat-widget__option-arrow">!</div>
+                    `;
+                    copyButton.style.background = 'linear-gradient(135deg, #dc3545, #c82333)';
+                    copyButton.style.color = '#fff';
+                    
+                    setTimeout(() => {
+                        copyButton.innerHTML = originalContent;
+                        copyButton.style.background = '';
+                        copyButton.style.color = '';
+                    }, 3000);
+                }
+            }
         } catch (err) {
-            showErrorMessage('링크 복사에 실패했습니다. 수동으로 복사해주세요: ' + text);
+            console.error('폴백 복사 실패:', err);
+            showErrorMessage('❌ 링크 복사에 실패했습니다.\n\n수동으로 복사해주세요:\n' + text);
+            
+            // 버튼을 실패 상태로 변경
+            if (copyButton) {
+                copyButton.innerHTML = `
+                    <div class="chat-widget__option-icon">❌</div>
+                    <div class="chat-widget__option-content">
+                        <h6>복사 실패</h6>
+                        <p>수동으로 복사해주세요</p>
+                    </div>
+                    <div class="chat-widget__option-arrow">!</div>
+                `;
+                copyButton.style.background = 'linear-gradient(135deg, #dc3545, #c82333)';
+                copyButton.style.color = '#fff';
+                
+                setTimeout(() => {
+                    copyButton.innerHTML = originalContent;
+                    copyButton.style.background = '';
+                    copyButton.style.color = '';
+                }, 3000);
+            }
         }
         
         document.body.removeChild(textArea);
     }
 
-    // 정보 메시지 표시
+    // 성공 메시지 표시 (개선된 버전)
+    function showSuccessMessage(message) {
+        const successDiv = document.createElement('div');
+        successDiv.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 1.2rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+            z-index: 10000;
+            animation: slideInSuccess 0.4s ease;
+            white-space: pre-line;
+            max-width: 350px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            font-weight: 500;
+        `;
+        successDiv.innerHTML = message;
+        document.body.appendChild(successDiv);
+        
+        // 5초 후 자동 제거
+        setTimeout(() => {
+            successDiv.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => {
+                if (successDiv.parentNode) {
+                    successDiv.remove();
+                }
+            }, 300);
+        }, 5000);
+    }
+
+    // 실패 메시지 표시 (개선된 버전)
+    function showErrorMessage(message) {
+        const errorDiv = document.createElement('div');
+        errorDiv.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+            padding: 1.2rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(220, 53, 69, 0.3);
+            z-index: 10000;
+            animation: slideInError 0.4s ease;
+            white-space: pre-line;
+            max-width: 350px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            font-weight: 500;
+        `;
+        errorDiv.innerHTML = message;
+        document.body.appendChild(errorDiv);
+        
+        // 6초 후 자동 제거
+        setTimeout(() => {
+            errorDiv.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => {
+                if (errorDiv.parentNode) {
+                    errorDiv.remove();
+                }
+            }, 300);
+        }, 6000);
+    }
+
+    // 정보 메시지 표시 (개선된 버전)
     function showInfoMessage(message) {
         const infoDiv = document.createElement('div');
         infoDiv.style.cssText = `
             position: fixed;
             top: 20px;
             right: 20px;
-            background: #17a2b8;
+            background: linear-gradient(135deg, #17a2b8, #138496);
             color: white;
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            padding: 1.2rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(23, 162, 184, 0.3);
             z-index: 10000;
-            animation: slideIn 0.3s ease;
+            animation: slideInInfo 0.4s ease;
             white-space: pre-line;
-            max-width: 300px;
+            max-width: 350px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            font-weight: 500;
         `;
-        infoDiv.textContent = message;
+        infoDiv.innerHTML = message;
         document.body.appendChild(infoDiv);
         
+        // 5초 후 자동 제거
         setTimeout(() => {
-            infoDiv.remove();
-        }, 8000);
+            infoDiv.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => {
+                if (infoDiv.parentNode) {
+                    infoDiv.remove();
+                }
+            }, 300);
+        }, 5000);
     }
 }
 
