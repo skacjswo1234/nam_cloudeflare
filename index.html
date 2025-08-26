@@ -810,26 +810,46 @@
     <!-- Chat Widget -->
     <div class="chat-widget" id="chatWidget">
         <div class="chat-widget__button" id="chatButton">
-            <span>💬</span>
+            <div class="chat-widget__icon">💬</div>
+            <div class="chat-widget__pulse"></div>
         </div>
         <div class="chat-widget__popup" id="chatPopup">
             <div class="chat-widget__header">
-                <h4>카카오톡 상담</h4>
+                <div class="chat-widget__title">
+                    <div class="chat-widget__title-icon">💬</div>
+                    <div class="chat-widget__title-text">
+                        <h4>카카오톡 상담</h4>
+                        <p>실시간 상담 가능</p>
+                    </div>
+                </div>
                 <button class="chat-widget__close" id="chatClose">×</button>
             </div>
             <div class="chat-widget__content">
-                <p>💬 카카오톡으로 상담을 받아보세요!</p>
-                <div class="kakao-info">
-                    <p><strong>카카오톡 ID:</strong> 9078807a</p>
-                    <p><small>아래 버튼을 클릭하면 바로 카카오톡으로 연결됩니다</small></p>
+                <div class="chat-widget__welcome">
+                    <div class="chat-widget__welcome-icon">👋</div>
+                    <h5>안녕하세요!</h5>
+                    <p>웹사이트 제작에 대해 궁금한 점이 있으시면 언제든 문의해주세요.</p>
                 </div>
-                <div class="kakao-buttons">
-                    <a href="https://open.kakao.com/o/sSbS9AOh" target="_blank" class="btn btn--primary kakao-direct-btn">
-                        💬 카카오톡 상담 신청
+                <div class="chat-widget__options">
+                    <a href="https://open.kakao.com/o/sSbS9AOh" target="_blank" class="chat-widget__option chat-widget__option--primary">
+                        <div class="chat-widget__option-icon">💬</div>
+                        <div class="chat-widget__option-content">
+                            <h6>카카오톡 상담 신청</h6>
+                            <p>오픈채팅방으로 바로 연결</p>
+                        </div>
+                        <div class="chat-widget__option-arrow">→</div>
                     </a>
-                    <button class="btn btn--secondary kakao-copy-btn" onclick="copyKakaoLink()">
-                        📋 링크 복사하기
+                    <button class="chat-widget__option chat-widget__option--secondary" onclick="copyKakaoLink()">
+                        <div class="chat-widget__option-icon">📋</div>
+                        <div class="chat-widget__option-content">
+                            <h6>링크 복사하기</h6>
+                            <p>상담 링크를 클립보드에 복사</p>
+                        </div>
+                        <div class="chat-widget__option-arrow">→</div>
                     </button>
+                </div>
+                <div class="chat-widget__footer">
+                    <p>평일 09:00 - 18:00 | 주말 10:00 - 17:00</p>
                 </div>
             </div>
         </div>

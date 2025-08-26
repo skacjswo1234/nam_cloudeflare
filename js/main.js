@@ -428,95 +428,243 @@ style.textContent = `
         animation: slideIn 0.3s ease;
     }
     
-    /* 카카오톡 QR 섹션 스타일 */
-    .kakao-qr-section {
+    /* 개선된 카카오톡 상담 위젯 스타일 */
+    .chat-widget__button {
+        position: relative;
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #FEE500, #FFD700);
+        border-radius: 50%;
         display: flex;
-        align-items: center;
-        gap: 1rem;
-        margin: 1rem 0;
-        padding: 1rem;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 8px;
-    }
-    
-    .qr-code-placeholder {
-        display: flex;
-        flex-direction: column;
         align-items: center;
         justify-content: center;
-        width: 80px;
-        height: 80px;
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 8px;
-        border: 2px dashed rgba(255, 255, 255, 0.3);
+        cursor: pointer;
+        box-shadow: 0 4px 20px rgba(254, 229, 0, 0.4);
+        transition: all 0.3s ease;
+        z-index: 1000;
     }
     
-    .qr-icon {
+    .chat-widget__button:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 25px rgba(254, 229, 0, 0.6);
+    }
+    
+    .chat-widget__icon {
+        font-size: 1.5rem;
+        color: #000;
+        z-index: 2;
+    }
+    
+    .chat-widget__pulse {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: rgba(254, 229, 0, 0.6);
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(1.5);
+            opacity: 0;
+        }
+    }
+    
+    .chat-widget__popup {
+        position: absolute;
+        bottom: 80px;
+        right: 0;
+        width: 320px;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(20px);
+        transition: all 0.3s ease;
+        z-index: 999;
+    }
+    
+    .chat-widget__popup.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+    
+    .chat-widget__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.5rem 1.5rem 1rem;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .chat-widget__title {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    
+    .chat-widget__title-icon {
+        font-size: 1.5rem;
+    }
+    
+    .chat-widget__title-text h4 {
+        margin: 0;
+        font-size: 1.1rem;
+        color: #333;
+    }
+    
+    .chat-widget__title-text p {
+        margin: 0;
+        font-size: 0.8rem;
+        color: #666;
+    }
+    
+    .chat-widget__close {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: #999;
+        cursor: pointer;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+    }
+    
+    .chat-widget__close:hover {
+        background: #f5f5f5;
+        color: #333;
+    }
+    
+    .chat-widget__content {
+        padding: 1.5rem;
+    }
+    
+    .chat-widget__welcome {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        border-radius: 12px;
+    }
+    
+    .chat-widget__welcome-icon {
         font-size: 2rem;
         margin-bottom: 0.5rem;
     }
     
-    .qr-code-placeholder p {
-        font-size: 0.8rem;
+    .chat-widget__welcome h5 {
+        margin: 0 0 0.5rem 0;
+        color: #333;
+        font-size: 1.1rem;
+    }
+    
+    .chat-widget__welcome p {
         margin: 0;
-        color: rgba(255, 255, 255, 0.8);
+        color: #666;
+        font-size: 0.9rem;
+        line-height: 1.4;
     }
     
-    .kakao-info {
-        flex: 1;
-    }
-    
-    .kakao-info p {
-        margin: 0.25rem 0;
-        color: white;
-    }
-    
-    .kakao-info small {
-        color: rgba(255, 255, 255, 0.7);
-    }
-    
-    .kakao-buttons {
+    .chat-widget__options {
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
-        margin-top: 1rem;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
     }
     
-    .kakao-copy-btn, .kakao-direct-btn {
-        width: 100%;
-        padding: 0.75rem;
+    .chat-widget__option {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem;
         border: none;
-        border-radius: 6px;
-        font-size: 0.9rem;
+        border-radius: 12px;
         cursor: pointer;
         transition: all 0.3s ease;
         text-decoration: none;
-        display: inline-block;
+        background: #f8f9fa;
+    }
+    
+    .chat-widget__option:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .chat-widget__option--primary {
+        background: linear-gradient(135deg, #FEE500, #FFD700);
+        color: #000;
+    }
+    
+    .chat-widget__option--primary:hover {
+        background: linear-gradient(135deg, #FFD700, #FFA500);
+        color: #000;
+    }
+    
+    .chat-widget__option--secondary {
+        background: #f8f9fa;
+        color: #333;
+    }
+    
+    .chat-widget__option--secondary:hover {
+        background: #e9ecef;
+        color: #333;
+    }
+    
+    .chat-widget__option-icon {
+        font-size: 1.2rem;
+        width: 24px;
         text-align: center;
     }
     
-    .kakao-direct-btn {
-        background: #FEE500;
-        color: #000;
-        margin-bottom: 0.5rem;
+    .chat-widget__option-content {
+        flex: 1;
     }
     
-    .kakao-direct-btn:hover {
-        background: #FFD700;
-        transform: translateY(-2px);
-        color: #000;
-        text-decoration: none;
+    .chat-widget__option-content h6 {
+        margin: 0 0 0.25rem 0;
+        font-size: 0.95rem;
+        font-weight: 600;
     }
     
-    .kakao-copy-btn {
-        background: rgba(255, 255, 255, 0.2);
-        color: white;
-        border: 1px solid rgba(255, 255, 255, 0.3);
+    .chat-widget__option-content p {
+        margin: 0;
+        font-size: 0.8rem;
+        color: #666;
+        line-height: 1.3;
     }
     
-    .kakao-copy-btn:hover {
-        background: rgba(255, 255, 255, 0.3);
-        transform: translateY(-2px);
+    .chat-widget__option-arrow {
+        font-size: 1.2rem;
+        color: #999;
+        transition: transform 0.3s ease;
+    }
+    
+    .chat-widget__option:hover .chat-widget__option-arrow {
+        transform: translateX(3px);
+    }
+    
+    .chat-widget__footer {
+        text-align: center;
+        padding-top: 1rem;
+        border-top: 1px solid #f0f0f0;
+    }
+    
+    .chat-widget__footer p {
+        margin: 0;
+        font-size: 0.75rem;
+        color: #999;
     }
 `;
 document.head.appendChild(style);
