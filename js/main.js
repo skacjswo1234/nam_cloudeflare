@@ -287,9 +287,9 @@ function initChatWidget() {
         
         try {
             document.execCommand('copy');
-            showSuccessMessage('카카오톡 ID가 클립보드에 복사되었습니다!');
+            showSuccessMessage('카카오톡 상담 링크가 클립보드에 복사되었습니다!');
         } catch (err) {
-            showErrorMessage('ID 복사에 실패했습니다. 수동으로 복사해주세요: ' + text);
+            showErrorMessage('링크 복사에 실패했습니다. 수동으로 복사해주세요: ' + text);
         }
         
         document.body.removeChild(textArea);
