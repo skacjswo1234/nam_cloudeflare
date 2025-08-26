@@ -260,8 +260,8 @@ function initChatWidget() {
         }
     };
 
-    // 카카오톡 ID 검색 기능
-    window.searchKakaoId = function() {
+    // 카카오톡 바로가기 기능
+    window.openKakaoChat = function() {
         const kakaoId = '9078807a';
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         
@@ -269,8 +269,8 @@ function initChatWidget() {
             // 모바일에서는 카카오톡 앱으로 직접 연결
             window.location.href = `kakao://open?user=${kakaoId}`;
         } else {
-            // 데스크톱에서는 안내 메시지
-            showInfoMessage(`카카오톡 ID: ${kakaoId}\n\n1. 카카오톡 앱을 열어주세요\n2. 검색창에 "${kakaoId}"를 입력하세요\n3. 친구 추가 후 상담을 받아보세요!`);
+            // 데스크톱에서는 카카오톡 웹으로 연결
+            window.open(`https://open.kakao.com/me/${kakaoId}`, '_blank');
         }
     };
 
@@ -482,7 +482,7 @@ style.textContent = `
         margin-top: 1rem;
     }
     
-    .kakao-copy-btn, .kakao-search-btn {
+    .kakao-copy-btn, .kakao-direct-btn {
         width: 100%;
         padding: 0.75rem;
         border: none;
@@ -490,25 +490,31 @@ style.textContent = `
         font-size: 0.9rem;
         cursor: pointer;
         transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+    }
+    
+    .kakao-direct-btn {
+        background: #FEE500;
+        color: #000;
+        margin-bottom: 0.5rem;
+    }
+    
+    .kakao-direct-btn:hover {
+        background: #FFD700;
+        transform: translateY(-2px);
+        color: #000;
+        text-decoration: none;
     }
     
     .kakao-copy-btn {
-        background: #FEE500;
-        color: #000;
-    }
-    
-    .kakao-copy-btn:hover {
-        background: #FFD700;
-        transform: translateY(-2px);
-    }
-    
-    .kakao-search-btn {
         background: rgba(255, 255, 255, 0.2);
         color: white;
         border: 1px solid rgba(255, 255, 255, 0.3);
     }
     
-    .kakao-search-btn:hover {
+    .kakao-copy-btn:hover {
         background: rgba(255, 255, 255, 0.3);
         transform: translateY(-2px);
     }
