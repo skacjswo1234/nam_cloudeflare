@@ -246,17 +246,17 @@ function initChatWidget() {
         });
     }
     
-    // 카카오톡 ID 복사 기능
-    window.copyKakaoId = function() {
-        const kakaoId = '9078807a';
+    // 카카오톡 오픈채팅 링크 복사 기능
+    window.copyKakaoLink = function() {
+        const kakaoLink = 'https://open.kakao.com/o/sSbS9AOh';
         if (navigator.clipboard) {
-            navigator.clipboard.writeText(kakaoId).then(() => {
-                showSuccessMessage('카카오톡 ID가 클립보드에 복사되었습니다!');
+            navigator.clipboard.writeText(kakaoLink).then(() => {
+                showSuccessMessage('카카오톡 상담 링크가 클립보드에 복사되었습니다!');
             }).catch(() => {
-                fallbackCopyTextToClipboard(kakaoId);
+                fallbackCopyTextToClipboard(kakaoLink);
             });
         } else {
-            fallbackCopyTextToClipboard(kakaoId);
+            fallbackCopyTextToClipboard(kakaoLink);
         }
     };
 
