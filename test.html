@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS 테스트</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* 인라인 테스트 스타일 */
+        .test-container {
+            padding: 20px;
+            background: #f0f0f0;
+            margin: 20px;
+            border-radius: 8px;
+        }
+        .test-button {
+            background: #000;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>CSS 테스트 페이지</h1>
+        <p>이 페이지는 CSS가 제대로 로드되는지 테스트합니다.</p>
+        <button class="test-button">테스트 버튼</button>
+        <button class="btn btn--primary">CSS 파일 버튼</button>
+    </div>
+    
+    <script>
+        console.log('CSS 테스트 페이지 로드됨');
+        // CSS 파일 로드 확인
+        const styleSheets = document.styleSheets;
+        console.log('로드된 스타일시트:', styleSheets.length);
+        for (let i = 0; i < styleSheets.length; i++) {
+            console.log(`스타일시트 ${i}:`, styleSheets[i].href);
+        }
+    </script>
+</body>
+</html>

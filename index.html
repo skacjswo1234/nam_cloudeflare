@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="전문적인 웹사이트 제작 및 판매 서비스. 반응형 웹사이트, 쇼핑몰, 기업 홈페이지 제작 전문">
+    <meta name="keywords" content="웹사이트 제작, 홈페이지 판매, 쇼핑몰 구축, 반응형 디자인, 맞춤 개발">
+    <title>웹사이트 제작 · 판매 전문가 | WebCraft Pro</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar__container">
+            <div class="navbar__logo">
+                <h2>WebCraft Pro</h2>
+            </div>
+            <ul class="navbar__menu">
+                <li><a href="#hero" class="navbar__link">홈</a></li>
+                <li><a href="#services" class="navbar__link">서비스</a></li>
+                <li><a href="#portfolio" class="navbar__link">포트폴리오</a></li>
+                <li><a href="#about" class="navbar__link">회사소개</a></li>
+                <li><a href="#contact" class="navbar__link">문의</a></li>
+                <li><a href="#" class="navbar__link navbar__link--kakao" onclick="searchKakaoId(); return false;">💬 카카오톡 상담</a></li>
+            </ul>
+            <div class="navbar__mobile-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <!-- Dynamic Background -->
+        <div class="hero__dynamic-bg">
+            <div class="hero__bg-animation">
+                <div class="hero__floating-element hero__floating-1"></div>
+                <div class="hero__floating-element hero__floating-2"></div>
+                <div class="hero__floating-element hero__floating-3"></div>
+                <div class="hero__floating-element hero__floating-4"></div>
+                <div class="hero__floating-element hero__floating-5"></div>
+                <div class="hero__floating-element hero__floating-6"></div>
+            </div>
+            
+            <!-- Additional Dynamic Elements -->
+            <div class="hero__particles">
+                <div class="hero__particle hero__particle--1"></div>
+                <div class="hero__particle hero__particle--2"></div>
+                <div class="hero__particle hero__particle--3"></div>
+                <div class="hero__particle hero__particle--4"></div>
+                <div class="hero__particle hero__particle--5"></div>
+                <div class="hero__particle hero__particle--6"></div>
+            </div>
+            
+            <!-- Dynamic Lines -->
+            <div class="hero__lines">
+                <div class="hero__line hero__line--1"></div>
+                <div class="hero__line hero__line--2"></div>
+                <div class="hero__line hero__line--3"></div>
+            </div>
+            
+            <div class="hero__video-container">
+                <video class="hero__video" autoplay muted loop playsinline>
+                    <source src="/videos/hero-bg.mp4" type="video/mp4">
+                    <source src="/videos/hero-bg.webm" type="video/webm">
+                    <img src="/images/hero-fallback.jpg" alt="배경 이미지">
+                </video>
+                <div class="hero__video-overlay"></div>
+            </div>
+        </div>
+        
+        <div class="hero__container">
+            <div class="hero__content">
+                <div class="hero__badge">
+                    <span>🚀 전문 웹사이트 제작</span>
+                </div>
+                <h1 class="hero__title">
+                    <span class="hero__title-line">Creative Design</span>
+                    <span class="hero__title-line">Original Performance</span>
+                    <span class="hero__title-line">Mobile Innovation</span>
+                </h1>
+                <p class="hero__subtitle">전문적인 웹사이트 제작과 판매로 당신의 온라인 비즈니스를 성장시켜 드립니다</p>
+                
+                <!-- Professional Service Buttons -->
+                <div class="hero__service-buttons">
+                    <div class="service-button-group">
+                        <a href="#contact" class="service-btn service-btn--primary">
+                            <span class="service-btn__icon">💻</span>
+                            <span class="service-btn__text">제작문의</span>
+                        </a>
+                        <a href="#contact" class="service-btn service-btn--secondary">
+                            <span class="service-btn__icon">⚙️</span>
+                            <span class="service-btn__text">개발문의</span>
+                        </a>
+                        <a href="#contact" class="service-btn service-btn--tertiary">
+                            <span class="service-btn__icon">🔧</span>
+                            <span class="service-btn__text">유지보수</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="hero__stats">
+                    <div class="hero__stat">
+                        <span class="hero__stat-number">500+</span>
+                        <span class="hero__stat-label">완료 프로젝트</span>
+                    </div>
+                    <div class="hero__stat">
+                        <span class="hero__stat-number">98%</span>
+                        <span class="hero__stat-label">고객 만족도</span>
+                    </div>
+                    <div class="hero__stat">
+                        <span class="hero__stat-number">24/7</span>
+                        <span class="hero__stat-label">지원 서비스</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero__visual">
+                <!-- 3D Interactive Website Preview -->
+                <div class="hero__3d-preview">
+                    <div class="hero__device-stack">
+                        <!-- Desktop Preview -->
+                        <div class="hero__device hero__device--desktop">
+                            <div class="hero__device-frame">
+                                <div class="hero__device-screen">
+                                    <div class="hero__website-preview">
+                                        <div class="hero__preview-header">
+                                            <div class="hero__preview-nav">
+                                                <div class="hero__preview-nav-item"></div>
+                                                <div class="hero__preview-nav-item"></div>
+                                                <div class="hero__preview-nav-item"></div>
+                                            </div>
+                                        </div>
+                                        <div class="hero__preview-content">
+                                            <div class="hero__preview-hero">
+                                                <div class="hero__preview-title"></div>
+                                                <div class="hero__preview-subtitle"></div>
+                                            </div>
+                                            <div class="hero__preview-cards">
+                                                <div class="hero__preview-card"></div>
+                                                <div class="hero__preview-card"></div>
+                                                <div class="hero__preview-card"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Tablet Preview -->
+                        <div class="hero__device hero__device--tablet">
+                            <div class="hero__device-frame">
+                                <div class="hero__device-screen">
+                                    <div class="hero__mobile-preview">
+                                        <div class="hero__mobile-header"></div>
+                                        <div class="hero__mobile-content">
+                                            <div class="hero__mobile-card"></div>
+                                            <div class="hero__mobile-card"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Mobile Preview -->
+                        <div class="hero__device hero__device--mobile">
+                            <div class="hero__device-frame">
+                                <div class="hero__device-screen">
+                                    <div class="hero__mobile-preview">
+                                        <div class="hero__mobile-header"></div>
+                                        <div class="hero__mobile-content">
+                                            <div class="hero__mobile-card"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Floating Code Elements -->
+                    <div class="hero__code-elements">
+                        <div class="hero__code-block hero__code-block--html">
+                            <div class="hero__code-line"></div>
+                            <div class="hero__code-line"></div>
+                            <div class="hero__code-line"></div>
+                        </div>
+                        <div class="hero__code-block hero__code-block--css">
+                            <div class="hero__code-line"></div>
+                            <div class="hero__code-line"></div>
+                            <div class="hero__code-line"></div>
+                        </div>
+                        <div class="hero__code-block hero__code-block--js">
+                            <div class="hero__code-line"></div>
+                            <div class="hero__code-line"></div>
+                            <div class="hero__code-line"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Performance Metrics -->
+                    <div class="hero__metrics">
+                        <div class="hero__metric hero__metric--speed">
+                            <div class="hero__metric-icon">⚡</div>
+                            <div class="hero__metric-value">0.8s</div>
+                            <div class="hero__metric-label">로딩 속도</div>
+                        </div>
+                        <div class="hero__metric hero__metric--score">
+                            <div class="hero__metric-icon">📊</div>
+                            <div class="hero__metric-value">98</div>
+                            <div class="hero__metric-label">성능 점수</div>
+                        </div>
+                        <div class="hero__metric hero__metric--seo">
+                            <div class="hero__metric-icon">🔍</div>
+                            <div class="hero__metric-value">A+</div>
+                            <div class="hero__metric-label">SEO 최적화</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <!-- Dynamic Background -->
+        <div class="services__dynamic-bg">
+            <div class="services__bg-animation">
+                <div class="services__floating-element services__floating-1"></div>
+                <div class="services__floating-element services__floating-2"></div>
+                <div class="services__floating-element services__floating-3"></div>
+                <div class="services__floating-element services__floating-4"></div>
+            </div>
+            <div class="services__video-container">
+                <video class="services__video" autoplay muted loop playsinline>
+                    <source src="/videos/services-bg.mp4" type="video/mp4">
+                    <source src="/videos/services-bg.webm" type="video/webm">
+                </video>
+                <div class="services__video-overlay"></div>
+            </div>
+        </div>
+        
+        <div class="services__container">
+            <div class="services__header">
+                <div class="services__badge">
+                    <span>🚀 전문 서비스</span>
+                </div>
+                <h2 class="services__title">다양한 웹사이트 제작 서비스</h2>
+                <p class="services__subtitle">고객의 비즈니스 성공을 위한 최고의 웹사이트 솔루션을 제공합니다</p>
+            </div>
+            
+            <div class="services__grid">
+                <div class="service__card" data-service="responsive">
+                    <div class="service__card-inner">
+                        <div class="service__icon-container">
+                            <div class="service__icon">💻</div>
+                            <div class="service__icon-bg"></div>
+                        </div>
+                        <div class="service__content">
+                            <h3>반응형 웹사이트 제작</h3>
+                            <p>모든 디바이스에서 완벽하게 작동하는 반응형 웹사이트를 제작합니다</p>
+                            <div class="service__features">
+                                <span class="service__feature">모바일 최적화</span>
+                                <span class="service__feature">SEO 친화적</span>
+                                <span class="service__feature">빠른 로딩</span>
+                            </div>
+                        </div>
+                        <div class="service__hover-effect"></div>
+                    </div>
+                </div>
+                
+                <div class="service__card" data-service="shopping">
+                    <div class="service__card-inner">
+                        <div class="service__icon-container">
+                            <div class="service__icon">🛒</div>
+                            <div class="service__icon-bg"></div>
+                        </div>
+                        <div class="service__content">
+                            <h3>쇼핑몰 구축</h3>
+                            <p>온라인 판매를 위한 전문적인 쇼핑몰을 구축해 드립니다</p>
+                            <div class="service__features">
+                                <span class="service__feature">결제 시스템</span>
+                                <span class="service__feature">재고 관리</span>
+                                <span class="service__feature">고객 관리</span>
+                            </div>
+                        </div>
+                        <div class="service__hover-effect"></div>
+                    </div>
+                </div>
+                
+                <div class="service__card" data-service="corporate">
+                    <div class="service__card-inner">
+                        <div class="service__icon-container">
+                            <div class="service__icon">🏢</div>
+                            <div class="service__icon-bg"></div>
+                        </div>
+                        <div class="service__content">
+                            <h3>기업/브랜드 홈페이지</h3>
+                            <p>기업의 신뢰도와 브랜드 가치를 높이는 홈페이지를 제작합니다</p>
+                            <div class="service__features">
+                                <span class="service__feature">브랜드 디자인</span>
+                                <span class="service__feature">기업 이미지</span>
+                                <span class="service__feature">신뢰성 구축</span>
+                            </div>
+                        </div>
+                        <div class="service__hover-effect"></div>
+                    </div>
+                </div>
+                
+                <div class="service__card" data-service="booking">
+                    <div class="service__card-inner">
+                        <div class="service__icon-container">
+                            <div class="service__icon">📅</div>
+                            <div class="service__icon-bg"></div>
+                        </div>
+                        <div class="service__content">
+                            <h3>예약/결제 시스템</h3>
+                            <p>예약 관리와 결제 시스템이 내장된 웹사이트를 제공합니다</p>
+                            <div class="service__features">
+                                <span class="service__feature">실시간 예약</span>
+                                <span class="service__feature">결제 연동</span>
+                                <span class="service__feature">관리 시스템</span>
+                            </div>
+                        </div>
+                        <div class="service__hover-effect"></div>
+                    </div>
+                </div>
+                
+                <div class="service__card" data-service="maintenance">
+                    <div class="service__card-inner">
+                        <div class="service__icon-container">
+                            <div class="service__icon">🔧</div>
+                            <div class="service__icon-bg"></div>
+                        </div>
+                        <div class="service__content">
+                            <h3>유지보수 패키지</h3>
+                            <p>웹사이트 운영과 유지보수를 위한 종합 서비스를 제공합니다</p>
+                            <div class="service__features">
+                                <span class="service__feature">24/7 모니터링</span>
+                                <span class="service__feature">정기 업데이트</span>
+                                <span class="service__feature">백업 관리</span>
+                            </div>
+                        </div>
+                        <div class="service__hover-effect"></div>
+                    </div>
+                </div>
+                
+                <div class="service__card" data-service="custom">
+                    <div class="service__card-inner">
+                        <div class="service__icon-container">
+                            <div class="service__icon">⚡</div>
+                            <div class="service__icon-bg"></div>
+                        </div>
+                        <div class="service__content">
+                            <h3>맞춤 개발</h3>
+                            <p>고객의 특별한 요구사항에 맞는 맞춤형 웹사이트를 개발합니다</p>
+                            <div class="service__features">
+                                <span class="service__feature">맞춤 기능</span>
+                                <span class="service__feature">특수 요구사항</span>
+                                <span class="service__feature">전문 개발</span>
+                            </div>
+                        </div>
+                        <div class="service__hover-effect"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="services__cta">
+                <div class="services__stats">
+                    <div class="services__stat">
+                        <span class="services__stat-number">100%</span>
+                        <span class="services__stat-label">고객 만족도</span>
+                    </div>
+                    <div class="services__stat">
+                        <span class="services__stat-number">24/7</span>
+                        <span class="services__stat-label">기술 지원</span>
+                    </div>
+                    <div class="services__stat">
+                        <span class="services__stat-number">빠른</span>
+                        <span class="services__stat-label">납품 보장</span>
+                    </div>
+                </div>
+                <a href="#contact" class="services__cta-btn">
+                    <span class="services__cta-icon">🚀</span>
+                    <span class="services__cta-text">지금 상담 신청하기</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <!-- Background Video for About Section -->
+        <div class="about__video-container">
+            <video class="about__video" autoplay muted loop playsinline>
+                <source src="/videos/about-bg.mp4" type="video/mp4">
+                <source src="/videos/about-bg.webm" type="video/webm">
+            </video>
+            <div class="about__video-overlay"></div>
+        </div>
+        <div class="about__container">
+            <div class="about__content">
+                <h2 class="section__title">WebCraft Pro 소개</h2>
+                <p class="about__description">
+                    WebCraft Pro는 10년 이상의 웹사이트 제작 경험을 바탕으로 
+                    고객의 비즈니스 성공을 위한 최고의 웹사이트를 제작합니다.
+                </p>
+                <div class="about__stats">
+                    <div class="stat__item">
+                        <h3>500+</h3>
+                        <p>완료 프로젝트</p>
+                    </div>
+                    <div class="stat__item">
+                        <h3>98%</h3>
+                        <p>고객 만족도</p>
+                    </div>
+                    <div class="stat__item">
+                        <h3>10년+</h3>
+                        <p>업계 경험</p>
+                    </div>
+                </div>
+            </div>
+            <div class="about__image">
+                <div class="about__mockup">
+                    <div class="mockup__team">
+                        <div class="team__member"></div>
+                        <div class="team__member"></div>
+                        <div class="team__member"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio">
+        <!-- Dynamic Background -->
+        <div class="portfolio__dynamic-bg">
+            <div class="portfolio__video-container">
+                <video class="portfolio__video" autoplay muted loop playsinline>
+                    <source src="/videos/portfolio-bg.mp4" type="video/mp4">
+                    <source src="/videos/portfolio-bg.webm" type="video/webm">
+                    <img src="/images/portfolio-fallback.jpg" alt="포트폴리오 배경">
+                </video>
+                <div class="portfolio__video-overlay"></div>
+            </div>
+            
+            <!-- Floating Elements -->
+            <div class="portfolio__floating-elements">
+                <div class="portfolio__floating-element portfolio__floating-1"></div>
+                <div class="portfolio__floating-element portfolio__floating-2"></div>
+                <div class="portfolio__floating-element portfolio__floating-3"></div>
+                <div class="portfolio__floating-element portfolio__floating-4"></div>
+                <div class="portfolio__floating-element portfolio__floating-5"></div>
+                <div class="portfolio__floating-element portfolio__floating-6"></div>
+            </div>
+            
+            <!-- Animated Grid Lines -->
+            <div class="portfolio__grid-lines">
+                <div class="portfolio__grid-line portfolio__grid-line--horizontal"></div>
+                <div class="portfolio__grid-line portfolio__grid-line--vertical"></div>
+                <div class="portfolio__grid-line portfolio__grid-line--diagonal"></div>
+            </div>
+        </div>
+        
+        <div class="portfolio__container">
+            <div class="portfolio__header">
+                <div class="portfolio__badge">
+                    <span>🎨 완성된 프로젝트</span>
+                </div>
+                <h2 class="portfolio__title">포트폴리오</h2>
+                <p class="portfolio__subtitle">완성된 웹사이트 프로젝트들을 확인해보세요</p>
+            </div>
+            
+            <div class="portfolio__grid">
+                <div class="portfolio__item portfolio__item--shopping">
+                    <div class="portfolio__image">
+                        <div class="portfolio__image-overlay">
+                            <div class="portfolio__tech-stack">
+                                <span class="tech-tag">React</span>
+                                <span class="tech-tag">Node.js</span>
+                                <span class="tech-tag">MongoDB</span>
+                            </div>
+                            <div class="portfolio__view-btn">
+                                <span>🔍 상세보기</span>
+                            </div>
+                        </div>
+                        <div class="portfolio__mockup portfolio__mockup--shopping">
+                            <div class="mockup__header">
+                                <div class="mockup__nav">
+                                    <div class="mockup__nav-item"></div>
+                                    <div class="mockup__nav-item"></div>
+                                    <div class="mockup__nav-item"></div>
+                                </div>
+                                <div class="mockup__search"></div>
+                            </div>
+                            <div class="mockup__content">
+                                <div class="mockup__product-grid">
+                                    <div class="mockup__product">
+                                        <div class="mockup__product-image"></div>
+                                        <div class="mockup__product-info">
+                                            <div class="mockup__product-title"></div>
+                                            <div class="mockup__product-price"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mockup__product">
+                                        <div class="mockup__product-image"></div>
+                                        <div class="mockup__product-info">
+                                            <div class="mockup__product-title"></div>
+                                            <div class="mockup__product-price"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mockup__product">
+                                        <div class="mockup__product-image"></div>
+                                        <div class="mockup__product-info">
+                                            <div class="mockup__product-title"></div>
+                                            <div class="mockup__product-price"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio__info">
+                        <div class="portfolio__category">🛍️ 쇼핑몰</div>
+                        <h3>패션 브랜드 쇼핑몰</h3>
+                        <p>반응형 디자인과 결제 시스템이 완벽하게 통합된 온라인 쇼핑몰</p>
+                        <div class="portfolio__stats">
+                            <div class="portfolio__stat">
+                                <span class="portfolio__stat-number">15일</span>
+                                <span class="portfolio__stat-label">제작 기간</span>
+                            </div>
+                            <div class="portfolio__stat">
+                                <span class="portfolio__stat-number">98%</span>
+                                <span class="portfolio__stat-label">성능 점수</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="portfolio__item portfolio__item--corporate">
+                    <div class="portfolio__image">
+                        <div class="portfolio__image-overlay">
+                            <div class="portfolio__tech-stack">
+                                <span class="tech-tag">Vue.js</span>
+                                <span class="tech-tag">Laravel</span>
+                                <span class="tech-tag">MySQL</span>
+                            </div>
+                            <div class="portfolio__view-btn">
+                                <span>🔍 상세보기</span>
+                            </div>
+                        </div>
+                        <div class="portfolio__mockup portfolio__mockup--corporate">
+                            <div class="mockup__header">
+                                <div class="mockup__logo"></div>
+                                <div class="mockup__nav">
+                                    <div class="mockup__nav-item"></div>
+                                    <div class="mockup__nav-item"></div>
+                                    <div class="mockup__nav-item"></div>
+                                    <div class="mockup__nav-item"></div>
+                                </div>
+                            </div>
+                            <div class="mockup__content">
+                                <div class="mockup__hero">
+                                    <div class="mockup__hero-title"></div>
+                                    <div class="mockup__hero-subtitle"></div>
+                                </div>
+                                <div class="mockup__services">
+                                    <div class="mockup__service">
+                                        <div class="mockup__service-icon"></div>
+                                        <div class="mockup__service-title"></div>
+                                    </div>
+                                    <div class="mockup__service">
+                                        <div class="mockup__service-icon"></div>
+                                        <div class="mockup__service-title"></div>
+                                    </div>
+                                    <div class="mockup__service">
+                                        <div class="mockup__service-icon"></div>
+                                        <div class="mockup__service-title"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio__info">
+                        <div class="portfolio__category">🏢 기업</div>
+                        <h3>IT 서비스 회사</h3>
+                        <p>기업 브랜딩과 서비스 소개에 최적화된 전문적인 홈페이지</p>
+                        <div class="portfolio__stats">
+                            <div class="portfolio__stat">
+                                <span class="portfolio__stat-number">12일</span>
+                                <span class="portfolio__stat-label">제작 기간</span>
+                            </div>
+                            <div class="portfolio__stat">
+                                <span class="portfolio__stat-number">99%</span>
+                                <span class="portfolio__stat-label">성능 점수</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="portfolio__item portfolio__item--booking">
+                    <div class="portfolio__image">
+                        <div class="portfolio__image-overlay">
+                            <div class="portfolio__tech-stack">
+                                <span class="tech-tag">Angular</span>
+                                <span class="tech-tag">Django</span>
+                                <span class="tech-tag">PostgreSQL</span>
+                            </div>
+                            <div class="portfolio__view-btn">
+                                <span>🔍 상세보기</span>
+                            </div>
+                        </div>
+                        <div class="portfolio__mockup portfolio__mockup--booking">
+                            <div class="mockup__header">
+                                <div class="mockup__logo"></div>
+                                <div class="mockup__nav">
+                                    <div class="mockup__nav-item"></div>
+                                    <div class="mockup__nav-item"></div>
+                                    <div class="mockup__nav-item"></div>
+                                </div>
+                            </div>
+                            <div class="mockup__content">
+                                <div class="mockup__calendar">
+                                    <div class="mockup__calendar-header"></div>
+                                    <div class="mockup__calendar-grid">
+                                        <div class="mockup__calendar-day"></div>
+                                        <div class="mockup__calendar-day"></div>
+                                        <div class="mockup__calendar-day"></div>
+                                        <div class="mockup__calendar-day"></div>
+                                        <div class="mockup__calendar-day"></div>
+                                        <div class="mockup__calendar-day"></div>
+                                        <div class="mockup__calendar-day"></div>
+                                    </div>
+                                </div>
+                                <div class="mockup__booking-form">
+                                    <div class="mockup__form-field"></div>
+                                    <div class="mockup__form-field"></div>
+                                    <div class="mockup__form-button"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio__info">
+                        <div class="portfolio__category">📅 예약</div>
+                        <h3>미용실 예약 시스템</h3>
+                        <p>실시간 예약 관리와 결제 시스템이 통합된 전문 예약 플랫폼</p>
+                        <div class="portfolio__stats">
+                            <div class="portfolio__stat">
+                                <span class="portfolio__stat-number">20일</span>
+                                <span class="portfolio__stat-label">제작 기간</span>
+                            </div>
+                            <div class="portfolio__stat">
+                                <span class="portfolio__stat-number">97%</span>
+                                <span class="portfolio__stat-label">성능 점수</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="portfolio__cta">
+                <div class="portfolio__cta-content">
+                    <h3>더 많은 프로젝트를 확인해보세요</h3>
+                    <p>다양한 산업 분야의 웹사이트 제작 사례를 보실 수 있습니다</p>
+                </div>
+                <div class="portfolio__cta-buttons">
+                    <a href="#contact" class="portfolio__cta-btn portfolio__cta-btn--primary">
+                        <span class="portfolio__cta-btn-icon">💼</span>
+                        <span class="portfolio__cta-btn-text">프로젝트 문의</span>
+                    </a>
+                    <a href="#contact" class="portfolio__cta-btn portfolio__cta-btn--secondary">
+                        <span class="portfolio__cta-btn-icon">📋</span>
+                        <span class="portfolio__cta-btn-text">견적 요청</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials">
+        <div class="testimonials__container">
+            <h2 class="section__title">고객 후기</h2>
+            <div class="testimonials__grid">
+                <div class="testimonial__card">
+                    <div class="testimonial__content">
+                        <p>"WebCraft Pro와 함께한 쇼핑몰 제작 프로젝트가 매우 만족스러웠습니다. 빠른 납품과 전문적인 서비스에 감동받았어요."</p>
+                    </div>
+                    <div class="testimonial__author">
+                        <h4>김영희</h4>
+                        <span>패션 브랜드 CEO</span>
+                    </div>
+                </div>
+                <div class="testimonial__card">
+                    <div class="testimonial__content">
+                        <p>"기업 홈페이지 제작부터 유지보수까지 모든 과정이 체계적이고 전문적이었습니다. 강력히 추천합니다!"</p>
+                    </div>
+                    <div class="testimonial__author">
+                        <h4>박철수</h4>
+                        <span>IT 스타트업 대표</span>
+                    </div>
+                </div>
+                <div class="testimonial__card">
+                    <div class="testimonial__content">
+                        <p>"예약 시스템이 내장된 웹사이트로 고객 관리가 훨씬 편해졌습니다. 매출도 30% 증가했어요!"</p>
+                    </div>
+                    <div class="testimonial__author">
+                        <h4>이미영</h4>
+                        <span>미용실 원장</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="contact__container">
+            <h2 class="section__title">상담 신청</h2>
+            <p class="section__subtitle">웹사이트 제작에 대해 궁금한 점이 있으시면 언제든 문의해주세요</p>
+            <div class="contact__content">
+                <div class="contact__info">
+                    <h3>연락처 정보</h3>
+                    <div class="contact__item">
+                        <span class="contact__icon">📧</span>
+                        <p>9078807@naver.com</p>
+                    </div>
+                    <div class="contact__item">
+                        <span class="contact__icon">📞</span>
+                        <p>010-7539-0242</p>
+                    </div>
+                    <div class="contact__item">
+                        <span class="contact__icon">📍</span>
+                        <p>경기도하남시 덕퐁동 현대지식산업센터2차 1015호</p>
+                    </div>
+                </div>
+                <form class="contact__form" id="contactForm" action="https://formspree.io/f/mblajlwq" method="POST">
+                    <div class="form__group">
+                        <input type="text" id="name" name="name" placeholder="이름" required>
+                    </div>
+                    <div class="form__group">
+                        <input type="email" id="email" name="email" placeholder="이메일" required>
+                    </div>
+                    <div class="form__group">
+                        <input type="tel" id="phone" name="phone" placeholder="전화번호" required>
+                    </div>
+                    <div class="form__group">
+                        <select id="service" name="service" required>
+                            <option value="">서비스 선택</option>
+                            <option value="responsive">반응형 웹사이트</option>
+                            <option value="shopping">쇼핑몰 구축</option>
+                            <option value="corporate">기업 홈페이지</option>
+                            <option value="booking">예약 시스템</option>
+                            <option value="maintenance">유지보수</option>
+                            <option value="custom">맞춤 개발</option>
+                        </select>
+                    </div>
+                    <div class="form__group">
+                        <textarea id="message" name="message" placeholder="요구사항을 자세히 적어주세요" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn--primary">상담 신청하기</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer__container">
+            <div class="footer__content">
+                <div class="footer__section">
+                    <h3>WebCraft Pro</h3>
+                    <p>전문적인 웹사이트 제작과 판매 서비스</p>
+                </div>
+                <div class="footer__section">
+                    <h4>서비스</h4>
+                    <ul>
+                        <li><a href="#services">반응형 웹사이트</a></li>
+                        <li><a href="#services">쇼핑몰 구축</a></li>
+                        <li><a href="#services">기업 홈페이지</a></li>
+                        <li><a href="#services">맞춤 개발</a></li>
+                    </ul>
+                </div>
+                <div class="footer__section">
+                    <h4>회사</h4>
+                    <ul>
+                        <li><a href="#about">회사소개</a></li>
+                        <li><a href="#portfolio">포트폴리오</a></li>
+                        <li><a href="#testimonials">고객후기</a></li>
+                        <li><a href="#contact">문의</a></li>
+                    </ul>
+                </div>
+                <div class="footer__section">
+                    <h4>연락처</h4>
+                    <p>📧 9078807@naver.com</p>
+                    <p>📞 010-7539-0242</p>
+                    <p><a href="#" onclick="searchKakaoId(); return false;" style="color: #FEE500; text-decoration: none;">💬 카카오톡 상담 (ID: 9078807a)</a></p>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <p>&copy; 2025 WebCraft Pro. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chat Widget -->
+    <div class="chat-widget" id="chatWidget">
+        <div class="chat-widget__button" id="chatButton">
+            <span>💬</span>
+        </div>
+        <div class="chat-widget__popup" id="chatPopup">
+            <div class="chat-widget__header">
+                <h4>카카오톡 상담</h4>
+                <button class="chat-widget__close" id="chatClose">×</button>
+            </div>
+            <div class="chat-widget__content">
+                <p>💬 카카오톡으로 상담을 받아보세요!</p>
+                <div class="kakao-qr-section">
+                    <div class="qr-code-placeholder">
+                        <div class="qr-icon">📱</div>
+                        <p>QR 코드</p>
+                    </div>
+                    <div class="kakao-info">
+                        <p><strong>카카오톡 ID:</strong> 9078807a</p>
+                        <p><small>QR 코드를 스캔하거나 ID로 검색해주세요</small></p>
+                    </div>
+                </div>
+                <div class="kakao-buttons">
+                    <button class="btn btn--primary kakao-copy-btn" onclick="copyKakaoId()">
+                        📋 ID 복사하기
+                    </button>
+                    <button class="btn btn--secondary kakao-search-btn" onclick="searchKakaoId()">
+                        🔍 카카오톡에서 검색
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

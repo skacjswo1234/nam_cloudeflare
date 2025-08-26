@@ -1,0 +1,7 @@
+# Redirect old URLs to new ones
+/admin-login.html /index.html 301
+/admin.html /index.html 301
+/test-contact.html /index.html 301
+
+# Handle 404 errors
+/* /index.html 404
