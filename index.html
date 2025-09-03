@@ -5,18 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="전문적인 웹사이트 제작 및 판매 서비스. 반응형 웹사이트, 쇼핑몰, 기업 홈페이지 제작 전문">
     <meta name="keywords" content="웹사이트 제작, 홈페이지 판매, 쇼핑몰 구축, 반응형 디자인, 맞춤 개발">
-    <title>웹사이트 제작 · 판매 전문가 | WebCraft Pro</title>
+    <title>웹사이트 제작 · 판매 전문가 | BrandiUp</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+
 </head>
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="navbar__container">
             <div class="navbar__logo">
-                <h2>WebCraft Pro</h2>
+                <h2>BrandiUp</h2>
             </div>
             <ul class="navbar__menu">
                 <li><a href="#hero" class="navbar__link">홈</a></li>
@@ -24,7 +25,7 @@
                 <li><a href="#portfolio" class="navbar__link">포트폴리오</a></li>
                 <li><a href="#about" class="navbar__link">회사소개</a></li>
                 <li><a href="#contact" class="navbar__link">문의</a></li>
-                <li><a href="https://open.kakao.com/o/sSbS9AOh" target="_blank" class="navbar__link navbar__link--kakao">💬 카카오톡 상담</a></li>
+                <li><a href="http://pf.kakao.com/_Brxexmn/chat" target="_blank" class="navbar__link navbar__link--kakao">💬 카카오톡 상담</a></li>
             </ul>
             <div class="navbar__mobile-toggle">
                 <span></span>
@@ -66,11 +67,10 @@
             
             <div class="hero__video-container">
                 <video class="hero__video" autoplay muted loop playsinline>
-                    <source src="./videos/hero-bg.mp4" type="video/mp4">
+                    <source src="./videos/it_video.mp4" type="video/mp4">
                     <source src="./videos/hero-bg.webm" type="video/webm">
                     <img src="./images/hero-fallback.jpg" alt="배경 이미지">
                 </video>
-                <div class="hero__video-overlay"></div>
             </div>
         </div>
         
@@ -403,9 +403,9 @@
         </div>
         <div class="about__container">
             <div class="about__content">
-                <h2 class="section__title">WebCraft Pro 소개</h2>
+                <h2 class="section__title">BrandiUp 소개</h2>
                 <p class="about__description">
-                    WebCraft Pro는 10년 이상의 웹사이트 제작 경험을 바탕으로 
+                    BrandiUp는 10년 이상의 웹사이트 제작 경험을 바탕으로 
                     고객의 비즈니스 성공을 위한 최고의 웹사이트를 제작합니다.
                 </p>
                 <div class="about__stats">
@@ -475,188 +475,48 @@
                 <p class="portfolio__subtitle">완성된 웹사이트 프로젝트들을 확인해보세요</p>
             </div>
             
-            <div class="portfolio__grid">
-                <div class="portfolio__item portfolio__item--shopping">
-                    <div class="portfolio__image">
-                        <div class="portfolio__image-overlay">
-                            <div class="portfolio__tech-stack">
-                                <span class="tech-tag">React</span>
-                                <span class="tech-tag">Node.js</span>
-                                <span class="tech-tag">MongoDB</span>
-                            </div>
-                            <div class="portfolio__view-btn">
-                                <span>🔍 상세보기</span>
-                            </div>
-                        </div>
-                        <div class="portfolio__mockup portfolio__mockup--shopping">
-                            <div class="mockup__header">
-                                <div class="mockup__nav">
-                                    <div class="mockup__nav-item"></div>
-                                    <div class="mockup__nav-item"></div>
-                                    <div class="mockup__nav-item"></div>
-                                </div>
-                                <div class="mockup__search"></div>
-                            </div>
-                            <div class="mockup__content">
-                                <div class="mockup__product-grid">
-                                    <div class="mockup__product">
-                                        <div class="mockup__product-image"></div>
-                                        <div class="mockup__product-info">
-                                            <div class="mockup__product-title"></div>
-                                            <div class="mockup__product-price"></div>
-                                        </div>
+            <div class="portfolio__grid" id="portfolioGrid">
+                <!-- 부동산 홈페이지 포트폴리오 -->
+                <div class="portfolio__item" data-category="real-estate">
+                    <div class="portfolio__item-inner">
+                        <div class="portfolio__image-container">
+                            <img src="./images/je_pol1.png" alt="부동산 홈페이지" class="portfolio__image">
+                            <div class="portfolio__overlay">
+                                <div class="portfolio__overlay-content">
+                                    <h3>부동산 홈페이지</h3>
+                                    <p>전문적인 부동산 중개 서비스를 위한 맞춤형 웹사이트</p>
+                                    <div class="portfolio__tags">
+                                        <span class="portfolio__tag">반응형 디자인</span>
+                                        <span class="portfolio__tag">부동산 중개</span>
+                                        <span class="portfolio__tag">매물 검색</span>
                                     </div>
-                                    <div class="mockup__product">
-                                        <div class="mockup__product-image"></div>
-                                        <div class="mockup__product-info">
-                                            <div class="mockup__product-title"></div>
-                                            <div class="mockup__product-price"></div>
-                                        </div>
-                                    </div>
-                                    <div class="mockup__product">
-                                        <div class="mockup__product-image"></div>
-                                        <div class="mockup__product-info">
-                                            <div class="mockup__product-title"></div>
-                                            <div class="mockup__product-price"></div>
-                                        </div>
-                                    </div>
+                                    <a href="#" class="portfolio__view-btn" onclick="viewPortfolio('real-estate')">
+                                        <span class="portfolio__view-btn-icon">🔍</span>
+                                        자세히 보러가기
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="portfolio__info">
-                        <div class="portfolio__category">🛍️ 쇼핑몰</div>
-                        <h3>패션 브랜드 쇼핑몰</h3>
-                        <p>반응형 디자인과 결제 시스템이 완벽하게 통합된 온라인 쇼핑몰</p>
-                        <div class="portfolio__stats">
-                            <div class="portfolio__stat">
-                                <span class="portfolio__stat-number">15일</span>
-                                <span class="portfolio__stat-label">제작 기간</span>
-                            </div>
-                            <div class="portfolio__stat">
-                                <span class="portfolio__stat-number">98%</span>
-                                <span class="portfolio__stat-label">성능 점수</span>
+                        <div class="portfolio__info">
+                            <h3>부동산 홈페이지</h3>
+                            <p>전문적인 부동산 중개 서비스를 위한 맞춤형 웹사이트입니다. 매물 검색, 상담 문의, 지역 정보 등 부동산 비즈니스에 필요한 모든 기능을 포함하고 있습니다.</p>
+                            <div class="portfolio__features">
+                                <span class="portfolio__feature">✅ 반응형 웹사이트</span>
+                                <span class="portfolio__feature">✅ 매물 관리 시스템</span>
+                                <span class="portfolio__feature">✅ 상담 문의 폼</span>
+                                <span class="portfolio__feature">✅ 지역 정보 제공</span>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="portfolio__item portfolio__item--corporate">
-                    <div class="portfolio__image">
-                        <div class="portfolio__image-overlay">
-                            <div class="portfolio__tech-stack">
-                                <span class="tech-tag">Vue.js</span>
-                                <span class="tech-tag">Laravel</span>
-                                <span class="tech-tag">MySQL</span>
-                            </div>
-                            <div class="portfolio__view-btn">
-                                <span>🔍 상세보기</span>
-                            </div>
-                        </div>
-                        <div class="portfolio__mockup portfolio__mockup--corporate">
-                            <div class="mockup__header">
-                                <div class="mockup__logo"></div>
-                                <div class="mockup__nav">
-                                    <div class="mockup__nav-item"></div>
-                                    <div class="mockup__nav-item"></div>
-                                    <div class="mockup__nav-item"></div>
-                                    <div class="mockup__nav-item"></div>
-                                </div>
-                            </div>
-                            <div class="mockup__content">
-                                <div class="mockup__hero">
-                                    <div class="mockup__hero-title"></div>
-                                    <div class="mockup__hero-subtitle"></div>
-                                </div>
-                                <div class="mockup__services">
-                                    <div class="mockup__service">
-                                        <div class="mockup__service-icon"></div>
-                                        <div class="mockup__service-title"></div>
-                                    </div>
-                                    <div class="mockup__service">
-                                        <div class="mockup__service-icon"></div>
-                                        <div class="mockup__service-title"></div>
-                                    </div>
-                                    <div class="mockup__service">
-                                        <div class="mockup__service-icon"></div>
-                                        <div class="mockup__service-title"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="portfolio__info">
-                        <div class="portfolio__category">🏢 기업</div>
-                        <h3>IT 서비스 회사</h3>
-                        <p>기업 브랜딩과 서비스 소개에 최적화된 전문적인 홈페이지</p>
-                        <div class="portfolio__stats">
-                            <div class="portfolio__stat">
-                                <span class="portfolio__stat-number">12일</span>
-                                <span class="portfolio__stat-label">제작 기간</span>
-                            </div>
-                            <div class="portfolio__stat">
-                                <span class="portfolio__stat-number">99%</span>
-                                <span class="portfolio__stat-label">성능 점수</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="portfolio__item portfolio__item--booking">
-                    <div class="portfolio__image">
-                        <div class="portfolio__image-overlay">
-                            <div class="portfolio__tech-stack">
-                                <span class="tech-tag">Angular</span>
-                                <span class="tech-tag">Django</span>
-                                <span class="tech-tag">PostgreSQL</span>
-                            </div>
-                            <div class="portfolio__view-btn">
-                                <span>🔍 상세보기</span>
-                            </div>
-                        </div>
-                        <div class="portfolio__mockup portfolio__mockup--booking">
-                            <div class="mockup__header">
-                                <div class="mockup__logo"></div>
-                                <div class="mockup__nav">
-                                    <div class="mockup__nav-item"></div>
-                                    <div class="mockup__nav-item"></div>
-                                    <div class="mockup__nav-item"></div>
-                                </div>
-                            </div>
-                            <div class="mockup__content">
-                                <div class="mockup__calendar">
-                                    <div class="mockup__calendar-header"></div>
-                                    <div class="mockup__calendar-grid">
-                                        <div class="mockup__calendar-day"></div>
-                                        <div class="mockup__calendar-day"></div>
-                                        <div class="mockup__calendar-day"></div>
-                                        <div class="mockup__calendar-day"></div>
-                                        <div class="mockup__calendar-day"></div>
-                                        <div class="mockup__calendar-day"></div>
-                                        <div class="mockup__calendar-day"></div>
-                                    </div>
-                                </div>
-                                <div class="mockup__booking-form">
-                                    <div class="mockup__form-field"></div>
-                                    <div class="mockup__form-field"></div>
-                                    <div class="mockup__form-button"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="portfolio__info">
-                        <div class="portfolio__category">📅 예약</div>
-                        <h3>미용실 예약 시스템</h3>
-                        <p>실시간 예약 관리와 결제 시스템이 통합된 전문 예약 플랫폼</p>
-                        <div class="portfolio__stats">
-                            <div class="portfolio__stat">
-                                <span class="portfolio__stat-number">20일</span>
-                                <span class="portfolio__stat-label">제작 기간</span>
-                            </div>
-                            <div class="portfolio__stat">
-                                <span class="portfolio__stat-number">97%</span>
-                                <span class="portfolio__stat-label">성능 점수</span>
-                            </div>
+                <!-- 추가 포트폴리오 아이템들을 위한 공간 -->
+                <div class="portfolio__item portfolio__item--placeholder" data-category="placeholder">
+                    <div class="portfolio__item-inner">
+                        <div class="portfolio__placeholder">
+                            <div class="portfolio__placeholder-icon">🏗️</div>
+                            <h3>새로운 프로젝트 준비 중</h3>
+                            <p>더 많은 포트폴리오가 준비되고 있습니다</p>
                         </div>
                     </div>
                 </div>
@@ -687,30 +547,134 @@
             <h2 class="section__title">고객 후기</h2>
             <div class="testimonials__grid">
                 <div class="testimonial__card">
+                    <div class="testimonial__header">
+                        <div class="testimonial__rating">
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                        </div>
+                        <div class="testimonial__date">2024.12.15</div>
+                    </div>
                     <div class="testimonial__content">
-                        <p>"WebCraft Pro와 함께한 쇼핑몰 제작 프로젝트가 매우 만족스러웠습니다. 빠른 납품과 전문적인 서비스에 감동받았어요."</p>
+                        <p>"웹사이트 제작을 처음 맡겨봤는데, 생각보다 훨씬 빠르고 깔끔하게 완성되었어요. 특히 반응형 디자인이 정말 마음에 들어요. 모바일에서도 완벽하게 작동하고, 고객들이 사용하기 편하다고 좋아합니다. 다음에도 꼭 이용하고 싶어요!"</p>
                     </div>
                     <div class="testimonial__author">
-                        <h4>김영희</h4>
-                        <span>패션 브랜드 CEO</span>
+                        <div class="testimonial__info">
+                            <h4>최수진</h4>
+                            <span>카페 사장</span>
+                        </div>
                     </div>
                 </div>
+                
                 <div class="testimonial__card">
+                    <div class="testimonial__header">
+                        <div class="testimonial__rating">
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                        </div>
+                        <div class="testimonial__date">2024.12.10</div>
+                    </div>
                     <div class="testimonial__content">
-                        <p>"기업 홈페이지 제작부터 유지보수까지 모든 과정이 체계적이고 전문적이었습니다. 강력히 추천합니다!"</p>
+                        <p>"쇼핑몰 제작을 맡겼는데 정말 만족스러워요! 결제 시스템 연동부터 재고 관리까지 모든 기능이 완벽하게 작동하고, 매출도 이전보다 40%나 늘었습니다. 고객 문의도 줄어들어서 운영이 훨씬 편해졌어요. 강력 추천합니다!"</p>
                     </div>
                     <div class="testimonial__author">
-                        <h4>박철수</h4>
-                        <span>IT 스타트업 대표</span>
+                        <div class="testimonial__info">
+                            <h4>김태현</h4>
+                            <span>전자제품 쇼핑몰 대표</span>
+                        </div>
                     </div>
                 </div>
+                
                 <div class="testimonial__card">
+                    <div class="testimonial__header">
+                        <div class="testimonial__rating">
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                        </div>
+                        <div class="testimonial__date">2024.12.05</div>
+                    </div>
                     <div class="testimonial__content">
-                        <p>"예약 시스템이 내장된 웹사이트로 고객 관리가 훨씬 편해졌습니다. 매출도 30% 증가했어요!"</p>
+                        <p>"기업 홈페이지를 새로 만들었는데, 브랜드 이미지가 훨씬 전문적으로 보이게 되었어요. SEO 최적화도 잘 되어있어서 검색 순위가 올라갔고, 고객 문의도 늘어났습니다. 유지보수 서비스도 꼼꼼하게 해주셔서 정말 감사해요!"</p>
                     </div>
                     <div class="testimonial__author">
-                        <h4>이미영</h4>
-                        <span>미용실 원장</span>
+                        <div class="testimonial__info">
+                            <h4>박준호</h4>
+                            <span>제조업체 이사</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial__card">
+                    <div class="testimonial__header">
+                        <div class="testimonial__rating">
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                        </div>
+                        <div class="testimonial__date">2024.11.28</div>
+                    </div>
+                    <div class="testimonial__content">
+                        <p>"예약 시스템이 내장된 웹사이트로 완전히 바뀌었어요! 전화로 받던 예약을 이제는 24시간 자동으로 받을 수 있고, 고객들도 편리하다고 좋아합니다. 매출도 35% 증가했고, 직원들도 업무 효율이 높아졌다고 해요. 정말 최고의 선택이었습니다!"</p>
+                    </div>
+                    <div class="testimonial__author">
+                        <div class="testimonial__info">
+                            <h4>이미라</h4>
+                            <span>치과 원장</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial__card">
+                    <div class="testimonial__header">
+                        <div class="testimonial__rating">
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                        </div>
+                        <div class="testimonial__date">2024.11.20</div>
+                    </div>
+                    <div class="testimonial__content">
+                        <p>"맞춤형 웹사이트 개발을 맡겼는데, 특별한 요구사항도 모두 반영해주셨어요. 개발 과정에서도 계속 소통해주시고, 완성 후에도 문제없이 작동하고 있습니다. 고객들이 웹사이트를 보고 신뢰를 보내는 것 같아요. 정말 감사합니다!"</p>
+                    </div>
+                    <div class="testimonial__author">
+                        <div class="testimonial__info">
+                            <h4>정민수</h4>
+                            <span>디자인 스튜디오 대표</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial__card">
+                    <div class="testimonial__header">
+                        <div class="testimonial__rating">
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                        </div>
+                        <div class="testimonial__date">2024.11.15</div>
+                    </div>
+                    <div class="testimonial__content">
+                        <p>"기존 웹사이트를 새롭게 리뉴얼했는데, 디자인이 정말 예쁘고 사용하기 편해졌어요. 로딩 속도도 빨라졌고, 모바일에서도 완벽하게 작동합니다. 고객들이 웹사이트를 보고 연락하는 경우가 늘어났고, 전체적으로 비즈니스에 도움이 많이 되고 있어요!"</p>
+                    </div>
+                    <div class="testimonial__author">
+                        <div class="testimonial__info">
+                            <h4>한소영</h4>
+                            <span>베이커리 사장</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -735,7 +699,7 @@
                     </div>
                     <div class="contact__item">
                         <span class="contact__icon">📍</span>
-                        <p>경기도하남시 덕퐁동 현대지식산업센터2차 1015호</p>
+                        <p>경기도 김포시 김포한강9로75번길 66, 구래동동 5층 505-U182호 구래동, 국제프라자</p>
                     </div>
                 </div>
                 <form class="contact__form" id="contactForm" action="https://formspree.io/f/mblajlwq" method="POST">
@@ -768,12 +732,14 @@
         </div>
     </section>
 
+
+
     <!-- Footer -->
     <footer class="footer">
         <div class="footer__container">
             <div class="footer__content">
                 <div class="footer__section">
-                    <h3>WebCraft Pro</h3>
+                    <h3>BrandiUp</h3>
                     <p>전문적인 웹사이트 제작과 판매 서비스</p>
                 </div>
                 <div class="footer__section">
@@ -798,11 +764,16 @@
                     <h4>연락처</h4>
                     <p>📧 9078807@naver.com</p>
                     <p>📞 010-7539-0242</p>
-                    <p><a href="https://open.kakao.com/o/sSbS9AOh" target="_blank" style="color: #FEE500; text-decoration: none;">💬 카카오톡 상담 바로가기</a></p>
+                    <p><a href="http://pf.kakao.com/_Brxexmn/chat" target="_blank" style="color: #FEE500; text-decoration: none;">💬 카카오톡 상담 바로가기</a></p>
+                </div>
+                <div class="footer__section">
+                    <h4>사업자 정보</h4>
+                    <p>📍 경기도 김포시 김포한강9로75번길 66, 구래동동 5층 505-U182호 구래동, 국제프라자</p>
+                    <p>🏢 사업자번호: 455-07-03206</p>
                 </div>
             </div>
             <div class="footer__bottom">
-                <p>&copy; 2025 WebCraft Pro. All rights reserved.</p>
+                <p>&copy; 2025 BrandiUp. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -831,11 +802,11 @@
                     <p>웹사이트 제작에 대해 궁금한 점이 있으시면 카카오톡으로 빠르게 연결해드립니다.</p>
                 </div>
                 <div class="chat-widget__options">
-                    <a href="https://open.kakao.com/o/sSbS9AOh" target="_blank" class="chat-widget__option chat-widget__option--primary">
+                    <a href="http://pf.kakao.com/_Brxexmn/chat" target="_blank" class="chat-widget__option chat-widget__option--primary">
                         <div class="chat-widget__option-icon">⚡</div>
                         <div class="chat-widget__option-content">
                             <h6>카카오톡 상담 신청</h6>
-                            <p>오픈채팅방으로 바로 연결</p>
+                            <p>프로필 채팅으로 바로 연결</p>
                         </div>
                         <div class="chat-widget__option-arrow">🚀</div>
                     </a>

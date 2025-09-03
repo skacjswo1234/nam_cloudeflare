@@ -245,9 +245,9 @@ function initChatWidget() {
         });
     }
     
-    // 카카오톡 오픈채팅 링크 복사 기능 (개선된 버전)
+    // 카카오톡 프로필 채팅 링크 복사 기능 (개선된 버전)
     window.copyKakaoLink = function() {
-        const kakaoLink = 'https://open.kakao.com/o/sSbS9AOh';
+        const kakaoLink = 'http://pf.kakao.com/_Brxexmn/chat';
         
         // 복사 성공 시 시각적 피드백을 위한 버튼 상태 변경
         const copyButton = document.querySelector('.chat-widget__option--secondary');
@@ -268,7 +268,7 @@ function initChatWidget() {
         // 복사 시도
         if (navigator.clipboard && window.isSecureContext) {
             navigator.clipboard.writeText(kakaoLink).then(() => {
-                showSuccessMessage('✅ 카카오톡 상담 링크가 클립보드에 복사되었습니다!\n\n링크: ' + kakaoLink);
+                showSuccessMessage('✅ 카카오톡 프로필 채팅 링크가 클립보드에 복사되었습니다!\n\n링크: ' + kakaoLink);
                 
                 // 3초 후 버튼 원래 상태로 복원
                 setTimeout(() => {
@@ -285,17 +285,17 @@ function initChatWidget() {
         }
     };
 
-    // 카카오톡 바로가기 기능
+    // 카카오톡 프로필 채팅 바로가기 기능
     window.openKakaoChat = function() {
-        const kakaoId = '9078807a';
+        const kakaoProfileUrl = 'http://pf.kakao.com/_Brxexmn/chat';
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         
         if (isMobile) {
             // 모바일에서는 카카오톡 앱으로 직접 연결
-            window.location.href = `kakao://open?user=${kakaoId}`;
+            window.open(kakaoProfileUrl, '_blank');
         } else {
-            // 데스크톱에서는 카카오톡 웹으로 연결
-            window.open(`https://open.kakao.com/me/${kakaoId}`, '_blank');
+            // 데스크톱에서도 프로필 채팅으로 연결
+            window.open(kakaoProfileUrl, '_blank');
         }
     };
 
@@ -324,7 +324,7 @@ function initChatWidget() {
         try {
             const successful = document.execCommand('copy');
             if (successful) {
-                showSuccessMessage('✅ 카카오톡 상담 링크가 클립보드에 복사되었습니다!\n\n링크: ' + text);
+                showSuccessMessage('✅ 카카오톡 프로필 채팅 링크가 클립보드에 복사되었습니다!\n\n링크: ' + text);
                 
                 // 3초 후 버튼 원래 상태로 복원
                 setTimeout(() => {
@@ -335,7 +335,7 @@ function initChatWidget() {
                     }
                 }, 3000);
             } else {
-                showErrorMessage('❌ 링크 복사에 실패했습니다.\n\n수동으로 복사해주세요:\n' + text);
+                showErrorMessage('❌ 프로필 채팅 링크 복사에 실패했습니다.\n\n수동으로 복사해주세요:\n' + text);
                 
                 // 버튼을 실패 상태로 변경
                 if (copyButton) {
@@ -869,7 +869,13 @@ function initVideoBackgrounds() {
     videos.forEach(video => {
         // 동영상 로드 완료 시 처리
         video.addEventListener('loadeddata', function() {
-            console.log('Video loaded:', this.src);
+            console.log('Video loaded successfully:', this.src || this.currentSrc);
+            this.style.opacity = '1';
+        });
+        
+        // 동영상 로드 시작 시 처리
+        video.addEventListener('loadstart', function() {
+            console.log('Video loading started:', this.src || this.currentSrc);
         });
         
         // 동영상 재생 오류 처리
@@ -1457,3 +1463,30 @@ function initPortfolioAnimations() {
 document.addEventListener('DOMContentLoaded', function() {
     initPortfolioAnimations();
 });
+
+
+
+
+
+// Portfolio view function
+function viewPortfolio(category) {
+    // 포트폴리오 카테고리별 URL 설정
+    const portfolioUrls = {
+        'real-estate': '#', // 나중에 도메인으로 변경 예정
+        'shopping': '#',
+        'corporate': '#',
+        'booking': '#',
+        'maintenance': '#',
+        'custom': '#'
+    };
+    
+    const url = portfolioUrls[category];
+    
+    if (url === '#') {
+        // 아직 URL이 설정되지 않은 경우
+        showMessage('포트폴리오 상세 페이지 준비 중입니다. 곧 업데이트될 예정입니다.', 'info');
+    } else {
+        // URL이 설정된 경우 새 창에서 열기
+        window.open(url, '_blank');
+    }
+}
