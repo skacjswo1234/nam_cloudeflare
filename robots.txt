@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://brandiup.it.kr/sitemap.xml
+
+# Disallow admin pages from search engines
+Disallow: /admin.html
+Disallow: /admin-login.html
+Disallow: /portfolio-admin.html
+Disallow: /test.html
+Disallow: /test-contact.html
