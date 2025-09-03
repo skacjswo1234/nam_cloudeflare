@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>포트폴리오 관리 | BrandiUp</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--accent-white);
+        }
+        
+        .admin-title {
+            font-size: 2rem;
+            color: var(--primary-black);
+        }
+        
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--hero-yellow);
+        }
+        
+        .stat-label {
+            color: var(--medium-gray);
+            margin-top: 0.5rem;
+        }
+        
+        .admin-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--accent-white);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+        }
+        
+        .filter-select {
+            padding: 0.75rem;
+            border: 1px solid var(--accent-white);
+            border-radius: var(--border-radius);
+            background: var(--white);
+        }
+        
+        .add-btn {
+            background: var(--hero-yellow);
+            color: var(--primary-black);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .add-btn:hover {
+            background: var(--hero-yellow-dark);
+            transform: translateY(-2px);
+        }
+        
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .portfolio-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .portfolio-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .portfolio-image {
+            height: 200px;
+            background: var(--accent-white);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .portfolio-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .portfolio-content {
+            padding: 1.5rem;
+        }
+        
+        .portfolio-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .portfolio-category {
+            color: var(--hero-yellow);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .portfolio-description {
+            color: var(--medium-gray);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        
+        .portfolio-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        
+        .edit-btn {
+            background: var(--primary-black);
+            color: var(--white);
+        }
+        
+        .delete-btn {
+            background: #dc3545;
+            color: var(--white);
+        }
+        
+        .toggle-btn {
+            background: var(--accent-white);
+            color: var(--primary-black);
+        }
+        
+        .featured-btn {
+            background: var(--hero-yellow);
+            color: var(--primary-black);
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+        }
+        
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--medium-gray);
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--accent-white);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .save-btn {
+            background: var(--hero-yellow);
+            color: var(--primary-black);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .cancel-btn {
+            background: var(--accent-white);
+            color: var(--primary-black);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--medium-gray);
+        }
+        
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+        }
+        
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .admin-container {
+                padding: 1rem;
+            }
+            
+            .admin-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .admin-controls {
+                flex-direction: column;
+            }
+            
+            .search-box {
+                min-width: auto;
+            }
+            
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .portfolio-actions {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1 class="admin-title">📁 포트폴리오 관리</h1>
+            <a href="index.html" class="btn btn--secondary">🏠 메인으로</a>
+        </div>
+        
+        <div class="admin-stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalPortfolios">0</div>
+                <div class="stat-label">전체 포트폴리오</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="activePortfolios">0</div>
+                <div class="stat-label">활성 포트폴리오</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="featuredPortfolios">0</div>
+                <div class="stat-label">피처드 포트폴리오</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalCategories">0</div>
+                <div class="stat-label">카테고리 수</div>
+            </div>
+        </div>
+        
+        <div class="admin-controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="포트폴리오 검색...">
+            </div>
+            <select class="filter-select" id="categoryFilter">
+                <option value="">모든 카테고리</option>
+                <option value="웹사이트">웹사이트</option>
+                <option value="모바일앱">모바일앱</option>
+                <option value="쇼핑몰">쇼핑몰</option>
+                <option value="기업홈페이지">기업홈페이지</option>
+                <option value="랜딩페이지">랜딩페이지</option>
+                <option value="기타">기타</option>
+            </select>
+            <button class="add-btn" onclick="openAddModal()">➕ 새 포트폴리오</button>
+        </div>
+        
+        <div id="messageContainer"></div>
+        
+        <div id="portfolioGrid" class="portfolio-grid">
+            <div class="loading">포트폴리오를 불러오는 중...</div>
+        </div>
+    </div>
+    
+    <!-- Add/Edit Portfolio Modal -->
+    <div class="modal" id="portfolioModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">새 포트폴리오 추가</h2>
+                <button class="close-btn" onclick="closeModal()">×</button>
+            </div>
+            <form id="portfolioForm">
+                <div class="form-group">
+                    <label for="title">제목 *</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">설명</label>
+                    <textarea id="description" name="description" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="category">카테고리 *</label>
+                    <select id="category" name="category" required>
+                        <option value="">카테고리 선택</option>
+                        <option value="웹사이트">웹사이트</option>
+                        <option value="모바일앱">모바일앱</option>
+                        <option value="쇼핑몰">쇼핑몰</option>
+                        <option value="기업홈페이지">기업홈페이지</option>
+                        <option value="랜딩페이지">랜딩페이지</option>
+                        <option value="기타">기타</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="clientName">클라이언트명</label>
+                    <input type="text" id="clientName" name="clientName">
+                </div>
+                <div class="form-group">
+                    <label for="mainImageUrl">메인 이미지 URL</label>
+                    <input type="url" id="mainImageUrl" name="mainImageUrl" placeholder="https://example.com/image.jpg">
+                </div>
+                <div class="form-group">
+                    <label for="imageUrls">추가 이미지 URLs (쉼표로 구분)</label>
+                    <textarea id="imageUrls" name="imageUrls" rows="2" placeholder="https://example.com/image1.jpg, https://example.com/image2.jpg"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="websiteUrl">웹사이트 URL</label>
+                    <input type="url" id="websiteUrl" name="websiteUrl">
+                </div>
+                <div class="form-group">
+                    <label for="githubUrl">GitHub URL</label>
+                    <input type="url" id="githubUrl" name="githubUrl">
+                </div>
+                <div class="form-group">
+                    <label for="technologiesUsed">사용 기술 (쉼표로 구분)</label>
+                    <input type="text" id="technologiesUsed" name="technologiesUsed" placeholder="React, Node.js, MongoDB">
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="isFeatured" name="isFeatured">
+                        피처드 포트폴리오로 설정
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="isActive" name="isActive" checked>
+                        활성 상태
+                    </label>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="save-btn">저장</button>
+                    <button type="button" class="cancel-btn" onclick="closeModal()">취소</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="js/portfolio-admin.js"></script>
+</body>
+</html>
