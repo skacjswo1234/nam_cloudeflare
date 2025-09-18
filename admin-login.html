@@ -172,7 +172,7 @@
     </div>
 
     <script>
-        const ADMIN_PASSWORD = 'Skacjs12^^@';
+        const ADMIN_PASSWORD = '1234';
         
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -194,7 +194,7 @@
                     sessionStorage.setItem('adminLoginTime', new Date().getTime());
                     
                     // 관리자 페이지로 이동
-                    window.location.href = '/admin.html';
+                    window.location.href = './admin.html';
                 } else {
                     // 로그인 실패
                     errorMessage.style.display = 'block';
@@ -222,7 +222,10 @@
             const sessionTimeout = 2 * 60 * 60 * 1000; // 2시간
             
             if (currentTime - loginTime < sessionTimeout) {
-                window.location.href = '/admin.html';
+                // 현재 페이지가 admin-login.html인 경우에만 리다이렉트
+                if (window.location.pathname.includes('admin-login.html')) {
+                    window.location.href = './admin.html';
+                }
             } else {
                 // 세션 만료
                 sessionStorage.removeItem('adminAuthenticated');

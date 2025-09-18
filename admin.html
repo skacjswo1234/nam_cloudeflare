@@ -319,7 +319,7 @@
                 // 인증되지 않았거나 세션이 만료된 경우
                 sessionStorage.removeItem('adminAuthenticated');
                 sessionStorage.removeItem('adminLoginTime');
-                window.location.href = '/admin-login.html';
+                window.location.href = './admin-login.html';
                 return false;
             }
             return true;
@@ -329,7 +329,7 @@
         function logout() {
             sessionStorage.removeItem('adminAuthenticated');
             sessionStorage.removeItem('adminLoginTime');
-            window.location.href = '/admin-login.html';
+            window.location.href = './admin-login.html';
         }
         
         // 차트 객체들

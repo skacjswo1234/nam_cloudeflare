@@ -1,9 +1,5 @@
-// Supabase Configuration
-const SUPABASE_URL = 'https://netkbhtithbhjiasdcja.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ldGtiaHRpdGhiaGppYXNkY2phIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY0MzU4NDEsImV4cCI6MjA3MjAxMTg0MX0.TbxcYsJoDyMKYvLvAsgPX1H9BGgDQ77hfIWw0dNqKkc';
-
-// Initialize Supabase client
-let supabase;
+// Workers API Configuration
+const API_BASE_URL = 'https://nam-portfolio-api.namhyunwoo0242.workers.dev/api';
 
 // Global variables
 let portfolios = [];
@@ -11,22 +7,9 @@ let editingPortfolioId = null;
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
-    loadSupabase();
     loadPortfolios();
     setupEventListeners();
 });
-
-// Load Supabase client
-async function loadSupabase() {
-    try {
-        const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
-        supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        console.log('Supabase client loaded successfully');
-    } catch (error) {
-        console.error('Failed to load Supabase client:', error);
-        showMessage('Supabase 클라이언트 로드 실패', 'error');
-    }
-}
 
 // Setup event listeners
 function setupEventListeners() {
@@ -43,25 +26,24 @@ function setupEventListeners() {
     portfolioForm.addEventListener('submit', handlePortfolioSubmit);
 }
 
-// Load portfolios from Supabase
+// Load portfolios from Workers API
 async function loadPortfolios() {
     try {
-        if (!supabase) {
-            await loadSupabase();
+        const response = await fetch(`${API_BASE_URL}/portfolios`);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
         
-        const { data, error } = await supabase
-            .from('portfolios')
-            .select('*')
-            .order('created_at', { ascending: false });
+        const result = await response.json();
         
-        if (error) {
-            throw error;
+        if (result.success) {
+            portfolios = result.data || [];
+            displayPortfolios(portfolios);
+            updateStats();
+        } else {
+            throw new Error(result.error || 'Failed to load portfolios');
         }
-        
-        portfolios = data || [];
-        displayPortfolios(portfolios);
-        updateStats();
         
     } catch (error) {
         console.error('Error loading portfolios:', error);
@@ -208,27 +190,41 @@ async function handlePortfolioSubmit(e) {
     };
     
     try {
+        let response;
+        
         if (editingPortfolioId) {
             // Update existing portfolio
-            const { error } = await supabase
-                .from('portfolios')
-                .update(portfolioData)
-                .eq('id', editingPortfolioId);
-            
-            if (error) throw error;
-            showMessage('포트폴리오가 성공적으로 수정되었습니다.', 'success');
+            response = await fetch(`${API_BASE_URL}/portfolios/${editingPortfolioId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(portfolioData)
+            });
         } else {
             // Create new portfolio
-            const { error } = await supabase
-                .from('portfolios')
-                .insert([portfolioData]);
-            
-            if (error) throw error;
-            showMessage('포트폴리오가 성공적으로 추가되었습니다.', 'success');
+            response = await fetch(`${API_BASE_URL}/portfolios`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(portfolioData)
+            });
         }
         
-        closeModal();
-        loadPortfolios();
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showMessage(result.message || '포트폴리오가 성공적으로 저장되었습니다.', 'success');
+            closeModal();
+            loadPortfolios();
+        } else {
+            throw new Error(result.error || 'Failed to save portfolio');
+        }
         
     } catch (error) {
         console.error('Error saving portfolio:', error);
@@ -242,15 +238,26 @@ async function togglePortfolioStatus(id) {
     if (!portfolio) return;
     
     try {
-        const { error } = await supabase
-            .from('portfolios')
-            .update({ is_active: !portfolio.is_active })
-            .eq('id', id);
+        const response = await fetch(`${API_BASE_URL}/portfolios/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ is_active: !portfolio.is_active })
+        });
         
-        if (error) throw error;
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         
-        showMessage(`포트폴리오가 ${!portfolio.is_active ? '활성화' : '비활성화'}되었습니다.`, 'success');
-        loadPortfolios();
+        const result = await response.json();
+        
+        if (result.success) {
+            showMessage(`포트폴리오가 ${!portfolio.is_active ? '활성화' : '비활성화'}되었습니다.`, 'success');
+            loadPortfolios();
+        } else {
+            throw new Error(result.error || 'Failed to toggle portfolio status');
+        }
         
     } catch (error) {
         console.error('Error toggling portfolio status:', error);
@@ -264,15 +271,26 @@ async function toggleFeaturedStatus(id) {
     if (!portfolio) return;
     
     try {
-        const { error } = await supabase
-            .from('portfolios')
-            .update({ is_featured: !portfolio.is_featured })
-            .eq('id', id);
+        const response = await fetch(`${API_BASE_URL}/portfolios/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ is_featured: !portfolio.is_featured })
+        });
         
-        if (error) throw error;
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         
-        showMessage(`포트폴리오가 ${!portfolio.is_featured ? '피처드로 설정' : '피처드 해제'}되었습니다.`, 'success');
-        loadPortfolios();
+        const result = await response.json();
+        
+        if (result.success) {
+            showMessage(`포트폴리오가 ${!portfolio.is_featured ? '피처드로 설정' : '피처드 해제'}되었습니다.`, 'success');
+            loadPortfolios();
+        } else {
+            throw new Error(result.error || 'Failed to toggle featured status');
+        }
         
     } catch (error) {
         console.error('Error toggling featured status:', error);
@@ -287,15 +305,22 @@ async function deletePortfolio(id) {
     }
     
     try {
-        const { error } = await supabase
-            .from('portfolios')
-            .delete()
-            .eq('id', id);
+        const response = await fetch(`${API_BASE_URL}/portfolios/${id}`, {
+            method: 'DELETE'
+        });
         
-        if (error) throw error;
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         
-        showMessage('포트폴리오가 성공적으로 삭제되었습니다.', 'success');
-        loadPortfolios();
+        const result = await response.json();
+        
+        if (result.success) {
+            showMessage(result.message || '포트폴리오가 성공적으로 삭제되었습니다.', 'success');
+            loadPortfolios();
+        } else {
+            throw new Error(result.error || 'Failed to delete portfolio');
+        }
         
     } catch (error) {
         console.error('Error deleting portfolio:', error);
