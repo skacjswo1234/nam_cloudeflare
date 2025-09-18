@@ -83,8 +83,8 @@ function initContactForm() {
             submitBtn.textContent = '전송 중...';
             submitBtn.disabled = true;
             
-            // Send form data to Formspree
-            fetch(this.action, {
+            // Send form data to Workers API
+            fetch('https://nam-portfolio-api.namhyunwoo0242.workers.dev/api/contact', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -94,9 +94,7 @@ function initContactForm() {
                     email: data.email,
                     phone: data.phone,
                     service: data.service,
-                    message: data.message,
-                    _subject: `[WebCraft Pro] ${data.service} 상담 신청 - ${data.name}`,
-                    _captcha: false
+                    message: data.message
                 })
             })
             .then(response => {

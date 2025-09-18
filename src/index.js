@@ -34,6 +34,16 @@ export default {
         return await handlePortfolioAPI(request, env, corsHeaders);
       }
 
+      // 상담 신청 관리 API 라우팅
+      if (pathname.startsWith('/api/admin/contacts')) {
+        return await handleContactsAPI(request, env, corsHeaders);
+      }
+
+      // 문의폼 제출 API
+      if (pathname === '/api/contact') {
+        return await handleContactSubmission(request, env, corsHeaders);
+      }
+
       // 404 처리
       return new Response(JSON.stringify({ 
         error: 'Not found',
@@ -386,4 +396,207 @@ async function deletePortfolio(request, env, corsHeaders, id) {
     status: 200,
     headers: { ...corsHeaders, 'Content-Type': 'application/json' }
   });
+}
+
+// 상담 신청 관리 API 처리
+async function handleContactsAPI(request, env, corsHeaders) {
+  const url = new URL(request.url);
+  const pathname = url.pathname;
+  const method = request.method;
+
+  // 읽지 않은 신청 수 조회
+  if (pathname === '/api/admin/contacts/unread-count') {
+    return await getUnreadContactsCount(request, env, corsHeaders);
+  }
+
+  // 특정 상담 신청 읽음 처리
+  if (pathname.match(/^\/api\/admin\/contacts\/\d+\/read$/)) {
+    return await markContactAsRead(request, env, corsHeaders);
+  }
+
+  // 상담 신청 목록 조회
+  if (pathname === '/api/admin/contacts') {
+    return await getAllContacts(request, env, corsHeaders);
+  }
+
+  // 404 처리
+  return new Response(JSON.stringify({ 
+    error: 'Not found',
+    path: pathname 
+  }), {
+    status: 404,
+    headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+  });
+}
+
+// 모든 상담 신청 조회
+async function getAllContacts(request, env, corsHeaders) {
+  try {
+    const result = await env.DB.prepare(
+      'SELECT * FROM contacts ORDER BY created_at DESC'
+    ).all();
+
+    return new Response(JSON.stringify(result.results), {
+      status: 200,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+    });
+  } catch (error) {
+    console.error('Error fetching contacts:', error);
+    return new Response(JSON.stringify({ 
+      error: 'Failed to fetch contacts',
+      message: error.message 
+    }), {
+      status: 500,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+    });
+  }
+}
+
+// 읽지 않은 상담 신청 수 조회
+async function getUnreadContactsCount(request, env, corsHeaders) {
+  try {
+    const result = await env.DB.prepare(
+      'SELECT COUNT(*) as unreadCount FROM contacts WHERE is_read = 0'
+    ).first();
+
+    return new Response(JSON.stringify({ 
+      unreadCount: result.unreadCount 
+    }), {
+      status: 200,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+    });
+  } catch (error) {
+    console.error('Error fetching unread count:', error);
+    return new Response(JSON.stringify({ 
+      error: 'Failed to fetch unread count',
+      message: error.message 
+    }), {
+      status: 500,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+    });
+  }
+}
+
+// 상담 신청 읽음 처리
+async function markContactAsRead(request, env, corsHeaders) {
+  try {
+    // URL에서 ID 추출
+    const url = new URL(request.url);
+    const pathParts = url.pathname.split('/');
+    const contactId = pathParts[pathParts.length - 2]; // /api/admin/contacts/123/read
+
+    if (!contactId || isNaN(parseInt(contactId))) {
+      return new Response(JSON.stringify({ 
+        error: 'Invalid contact ID' 
+      }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      });
+    }
+
+    // 상담 신청 존재 여부 확인
+    const existingContact = await env.DB.prepare(
+      'SELECT id FROM contacts WHERE id = ?'
+    ).bind(contactId).first();
+
+    if (!existingContact) {
+      return new Response(JSON.stringify({ 
+        error: '상담 신청을 찾을 수 없습니다.' 
+      }), {
+        status: 404,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      });
+    }
+
+    // 읽음 처리
+    await env.DB.prepare(
+      'UPDATE contacts SET is_read = 1 WHERE id = ?'
+    ).bind(contactId).run();
+
+    return new Response(JSON.stringify({
+      success: true,
+      message: '읽음 처리되었습니다.'
+    }), {
+      status: 200,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+    });
+  } catch (error) {
+    console.error('Error marking contact as read:', error);
+    return new Response(JSON.stringify({ 
+      error: 'Failed to mark contact as read',
+      message: error.message 
+    }), {
+      status: 500,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+    });
+  }
+}
+
+// 문의폼 제출 처리
+async function handleContactSubmission(request, env, corsHeaders) {
+  try {
+    const body = await request.json();
+    
+    // 필수 필드 검증
+    if (!body.name || !body.email || !body.message) {
+      return new Response(JSON.stringify({ 
+        error: '필수 필드가 누락되었습니다.',
+        required: ['name', 'email', 'message']
+      }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      });
+    }
+
+    // 이메일 형식 검증
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(body.email)) {
+      return new Response(JSON.stringify({ 
+        error: '올바른 이메일 형식이 아닙니다.' 
+      }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      });
+    }
+
+    // 상담 신청 데이터 준비
+    const contactData = {
+      name: body.name.trim(),
+      email: body.email.trim(),
+      phone: body.phone ? body.phone.trim() : null,
+      service: body.service || null,
+      message: body.message.trim()
+    };
+
+    // 데이터베이스에 저장
+    const result = await env.DB.prepare(`
+      INSERT INTO contacts (name, email, phone, service, message)
+      VALUES (?, ?, ?, ?, ?)
+    `).bind(
+      contactData.name,
+      contactData.email,
+      contactData.phone,
+      contactData.service,
+      contactData.message
+    ).run();
+
+    return new Response(JSON.stringify({
+      success: true,
+      message: '상담 신청이 성공적으로 접수되었습니다.',
+      contactId: result.meta.last_row_id
+    }), {
+      status: 201,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+    });
+
+  } catch (error) {
+    console.error('Error submitting contact:', error);
+    return new Response(JSON.stringify({ 
+      error: '상담 신청 처리 중 오류가 발생했습니다.',
+      message: error.message 
+    }), {
+      status: 500,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+    });
+  }
 }

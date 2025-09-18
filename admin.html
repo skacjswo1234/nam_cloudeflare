@@ -351,8 +351,8 @@
             
             try {
                 const [contactsResponse, unreadResponse] = await Promise.all([
-                    fetch('/api/admin/contacts'),
-                    fetch('/api/admin/contacts/unread-count')
+                    fetch('https://nam-portfolio-api.namhyunwoo0242.workers.dev/api/admin/contacts'),
+                    fetch('https://nam-portfolio-api.namhyunwoo0242.workers.dev/api/admin/contacts/unread-count')
                 ]);
                 
                 if (contactsResponse.ok && unreadResponse.ok) {
@@ -393,7 +393,7 @@
             contactsList.innerHTML = '<div class="loading">데이터를 불러오는 중...</div>';
             
             try {
-                const response = await fetch('/api/admin/contacts');
+                const response = await fetch('https://nam-portfolio-api.namhyunwoo0242.workers.dev/api/admin/contacts');
                 
                 if (response.ok) {
                     const contacts = await response.json();
@@ -491,7 +491,7 @@
             if (!checkAuthentication()) return;
             
             try {
-                const response = await fetch('/api/admin/contacts');
+                const response = await fetch('https://nam-portfolio-api.namhyunwoo0242.workers.dev/api/admin/contacts');
                 if (response.ok) {
                     const contacts = await response.json();
                     createDailyChart(contacts);
@@ -640,7 +640,7 @@
             if (!checkAuthentication()) return;
             
             try {
-                const response = await fetch(`/api/admin/contacts/${contactId}/read`, {
+                const response = await fetch(`https://nam-portfolio-api.namhyunwoo0242.workers.dev/api/admin/contacts/${contactId}/read`, {
                     method: 'PUT'
                 });
                 
