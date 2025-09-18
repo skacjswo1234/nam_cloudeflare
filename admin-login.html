@@ -215,19 +215,14 @@
             }
         });
         
-        // 이미 로그인된 상태라면 관리자 페이지로 이동
+        // 세션 만료 체크만 수행 (자동 리다이렉트 제거)
         if (sessionStorage.getItem('adminAuthenticated') === 'true') {
             const loginTime = parseInt(sessionStorage.getItem('adminLoginTime') || '0');
             const currentTime = new Date().getTime();
             const sessionTimeout = 2 * 60 * 60 * 1000; // 2시간
             
-            if (currentTime - loginTime < sessionTimeout) {
-                // 현재 페이지가 admin-login.html인 경우에만 리다이렉트
-                if (window.location.pathname.includes('admin-login.html')) {
-                    window.location.href = './admin.html';
-                }
-            } else {
-                // 세션 만료
+            if (currentTime - loginTime >= sessionTimeout) {
+                // 세션 만료된 경우에만 클리어
                 sessionStorage.removeItem('adminAuthenticated');
                 sessionStorage.removeItem('adminLoginTime');
             }

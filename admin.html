@@ -319,6 +319,8 @@
                 // 인증되지 않았거나 세션이 만료된 경우
                 sessionStorage.removeItem('adminAuthenticated');
                 sessionStorage.removeItem('adminLoginTime');
+                // 리다이렉트 대신 경고 메시지 표시
+                alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
                 window.location.href = './admin-login.html';
                 return false;
             }
