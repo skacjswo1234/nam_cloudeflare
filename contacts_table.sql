@@ -1,0 +1,10 @@
+CREATE TABLE contacts (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  phone TEXT,
+  service TEXT,
+  message TEXT NOT NULL,
+  is_read BOOLEAN DEFAULT 0,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
