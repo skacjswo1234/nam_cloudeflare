@@ -82,13 +82,6 @@
                 <div class="hero__line hero__line--3"></div>
             </div>
             
-            <div class="hero__video-container">
-                <video class="hero__video" autoplay muted loop playsinline>
-                    <source src="./videos/it_video.mp4" type="video/mp4">
-                    <source src="./videos/hero-bg.webm" type="video/webm">
-                    <img src="./images/hero-fallback.jpg" alt="배경 이미지">
-                </video>
-            </div>
         </div>
         
         <div class="hero__container">
@@ -251,13 +244,6 @@
                 <div class="services__floating-element services__floating-3"></div>
                 <div class="services__floating-element services__floating-4"></div>
             </div>
-            <div class="services__video-container">
-                <video class="services__video" autoplay muted loop playsinline>
-                    <source src="/videos/services-bg.mp4" type="video/mp4">
-                    <source src="/videos/services-bg.webm" type="video/webm">
-                </video>
-                <div class="services__video-overlay"></div>
-            </div>
         </div>
         
         <div class="services__container">
@@ -410,14 +396,6 @@
 
     <!-- About Section -->
     <section id="about" class="about">
-        <!-- Background Video for About Section -->
-        <div class="about__video-container">
-            <video class="about__video" autoplay muted loop playsinline>
-                <source src="/videos/about-bg.mp4" type="video/mp4">
-                <source src="/videos/about-bg.webm" type="video/webm">
-            </video>
-            <div class="about__video-overlay"></div>
-        </div>
         <div class="about__container">
             <div class="about__content">
                 <h2 class="section__title">BrandiUp 소개</h2>
@@ -456,14 +434,6 @@
     <section id="portfolio" class="portfolio">
         <!-- Dynamic Background -->
         <div class="portfolio__dynamic-bg">
-            <div class="portfolio__video-container">
-                <video class="portfolio__video" autoplay muted loop playsinline>
-                    <source src="/videos/portfolio-bg.mp4" type="video/mp4">
-                    <source src="/videos/portfolio-bg.webm" type="video/webm">
-                    <img src="/images/portfolio-fallback.jpg" alt="포트폴리오 배경">
-                </video>
-                <div class="portfolio__video-overlay"></div>
-            </div>
             
             <!-- Floating Elements -->
             <div class="portfolio__floating-elements">
@@ -698,11 +668,11 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
+    <!-- Contact Section - 완전히 새로 작성 -->
+    <section id="contact" class="contact" style="display: block !important; visibility: visible !important; opacity: 1 !important;">
         <div class="contact__container">
-            <h2 class="section__title">상담 신청</h2>
-            <p class="section__subtitle">웹사이트 제작에 대해 궁금한 점이 있으시면 언제든 문의해주세요</p>
+            <h2 class="section__title" style="color: #000000; font-size: 2.5rem; margin-bottom: 1rem;">상담 신청</h2>
+            <p class="section__subtitle" style="color: #666666; font-size: 1.1rem; margin-bottom: 3rem;">웹사이트 제작에 대해 궁금한 점이 있으시면 언제든 문의해주세요</p>
             <div class="contact__content">
                 <div class="contact__info">
                     <h3>연락처 정보</h3>
@@ -719,18 +689,18 @@
                         <p>경기도 김포시 김포한강9로75번길 66, 구래동동 5층 505-U182호 구래동, 국제프라자</p>
                     </div>
                 </div>
-                <form class="contact__form" id="contactForm">
+                <form class="contact__form" id="contactForm" style="display: block !important; visibility: visible !important;">
                     <div class="form__group">
-                        <input type="text" id="name" name="name" placeholder="이름" required>
+                        <input type="text" id="name" name="name" placeholder="이름" required style="display: block; width: 100%; padding: 15px; border: 2px solid #d0d0d0; border-radius: 8px; font-size: 1rem; background-color: #ffffff; color: #000000;">
                     </div>
                     <div class="form__group">
-                        <input type="email" id="email" name="email" placeholder="이메일" required>
+                        <input type="email" id="email" name="email" placeholder="이메일" required style="display: block; width: 100%; padding: 15px; border: 2px solid #d0d0d0; border-radius: 8px; font-size: 1rem; background-color: #ffffff; color: #000000;">
                     </div>
                     <div class="form__group">
-                        <input type="tel" id="phone" name="phone" placeholder="전화번호" required>
+                        <input type="tel" id="phone" name="phone" placeholder="전화번호" required style="display: block; width: 100%; padding: 15px; border: 2px solid #d0d0d0; border-radius: 8px; font-size: 1rem; background-color: #ffffff; color: #000000;">
                     </div>
                     <div class="form__group">
-                        <select id="service" name="service" required>
+                        <select id="service" name="service" required style="display: block; width: 100%; padding: 15px; border: 2px solid #d0d0d0; border-radius: 8px; font-size: 1rem; background-color: #ffffff; color: #000000;">
                             <option value="">서비스 선택</option>
                             <option value="responsive">반응형 웹사이트</option>
                             <option value="shopping">쇼핑몰 구축</option>
@@ -741,9 +711,9 @@
                         </select>
                     </div>
                     <div class="form__group">
-                        <textarea id="message" name="message" placeholder="요구사항을 자세히 적어주세요" rows="5" required></textarea>
+                        <textarea id="message" name="message" placeholder="요구사항을 자세히 적어주세요" rows="5" required style="display: block; width: 100%; padding: 15px; border: 2px solid #d0d0d0; border-radius: 8px; font-size: 1rem; background-color: #ffffff; color: #000000; min-height: 120px; resize: vertical;"></textarea>
                     </div>
-                    <button type="submit" class="btn btn--primary">상담 신청하기</button>
+                    <button type="submit" class="btn btn--primary" style="display: block; width: 100%; padding: 18px; font-size: 1.1rem; font-weight: 600; background-color: #000000; color: #ffffff; border: none; border-radius: 8px; cursor: pointer; margin-top: 10px;">상담 신청하기</button>
                 </form>
             </div>
         </div>
