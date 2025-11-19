@@ -83,38 +83,32 @@ function initContactForm() {
             submitBtn.textContent = '전송 중...';
             submitBtn.disabled = true;
             
-            // Send form data to Formspree
-            fetch(this.action, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    name: data.name,
-                    email: data.email,
-                    phone: data.phone,
-                    service: data.service,
-                    message: data.message,
-                    _subject: `[WebCraft Pro] ${data.service} 상담 신청 - ${data.name}`,
-                    _captcha: false
-                })
-            })
-            .then(response => {
-                if (response.ok) {
+            // Send form data to Google Sheets
+            const contactData = {
+                id: Date.now(), // 임시 ID (Google Sheets에서 자동 생성 가능)
+                name: data.name,
+                email: data.email,
+                phone: data.phone,
+                service: data.service,
+                message: data.message,
+                isRead: false,
+                createdAt: new Date().toISOString()
+            };
+            
+            // Google Sheets에 추가
+            addToSheet('Contacts', contactToSheetRow(contactData))
+                .then(() => {
                     showSuccessMessage();
                     this.reset();
-                } else {
-                    throw new Error('Form submission failed');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showErrorMessage('상담 신청에 실패했습니다. 잠시 후 다시 시도해주세요.');
-            })
-            .finally(() => {
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-            });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showErrorMessage('상담 신청에 실패했습니다. 잠시 후 다시 시도해주세요.');
+                })
+                .finally(() => {
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                });
         });
     }
 }

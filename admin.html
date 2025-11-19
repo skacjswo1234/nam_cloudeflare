@@ -307,7 +307,11 @@
         </div>
     </div>
 
+    <script src="js/google-sheets-api.js"></script>
     <script>
+        // Google Sheets 시트 이름
+        const CONTACTS_SHEET_NAME = 'Contacts';
+        
         // 인증 체크
         function checkAuthentication() {
             const isAuthenticated = sessionStorage.getItem('adminAuthenticated') === 'true';
@@ -350,35 +354,38 @@
             if (!checkAuthentication()) return;
             
             try {
-                const [contactsResponse, unreadResponse] = await Promise.all([
-                    fetch('/api/admin/contacts'),
-                    fetch('/api/admin/contacts/unread-count')
-                ]);
+                const data = await readFromSheet(CONTACTS_SHEET_NAME);
+                const contacts = data.slice(1).map((row, index) => sheetRowToContact(row, index));
                 
-                if (contactsResponse.ok && unreadResponse.ok) {
-                    const contacts = await contactsResponse.json();
-                    const unreadData = await unreadResponse.json();
-                    
-                    document.getElementById('totalContacts').textContent = contacts.length;
-                    document.getElementById('unreadContacts').textContent = unreadData.unreadCount;
-                    
-                    // 오늘 신청 수 계산
-                    const today = new Date().toDateString();
-                    const todayContacts = contacts.filter(contact => 
-                        new Date(contact.createdAt).toDateString() === today
-                    ).length;
-                    document.getElementById('todayContacts').textContent = todayContacts;
-                    
-                    // 일평균 신청 수 계산
-                    if (contacts.length > 0) {
-                        const firstDate = new Date(contacts[contacts.length - 1].createdAt);
-                        const lastDate = new Date(contacts[0].createdAt);
-                        const daysDiff = Math.ceil((lastDate - firstDate) / (1000 * 60 * 60 * 24)) + 1;
-                        const avgDaily = (contacts.length / daysDiff).toFixed(1);
-                        document.getElementById('avgDailyContacts').textContent = avgDaily;
-                    } else {
-                        document.getElementById('avgDailyContacts').textContent = '0';
-                    }
+                // 최신순 정렬
+                contacts.sort((a, b) => {
+                    const dateA = new Date(a.createdAt);
+                    const dateB = new Date(b.createdAt);
+                    return dateB - dateA;
+                });
+                
+                document.getElementById('totalContacts').textContent = contacts.length;
+                
+                // 읽지 않은 신청 수 계산
+                const unreadCount = contacts.filter(c => !c.isRead).length;
+                document.getElementById('unreadContacts').textContent = unreadCount;
+                
+                // 오늘 신청 수 계산
+                const today = new Date().toDateString();
+                const todayContacts = contacts.filter(contact => 
+                    new Date(contact.createdAt).toDateString() === today
+                ).length;
+                document.getElementById('todayContacts').textContent = todayContacts;
+                
+                // 일평균 신청 수 계산
+                if (contacts.length > 0) {
+                    const firstDate = new Date(contacts[contacts.length - 1].createdAt);
+                    const lastDate = new Date(contacts[0].createdAt);
+                    const daysDiff = Math.ceil((lastDate - firstDate) / (1000 * 60 * 60 * 24)) + 1;
+                    const avgDaily = (contacts.length / daysDiff).toFixed(1);
+                    document.getElementById('avgDailyContacts').textContent = avgDaily;
+                } else {
+                    document.getElementById('avgDailyContacts').textContent = '0';
                 }
             } catch (error) {
                 console.error('통계 로드 오류:', error);
@@ -393,17 +400,20 @@
             contactsList.innerHTML = '<div class="loading">데이터를 불러오는 중...</div>';
             
             try {
-                const response = await fetch('/api/admin/contacts');
+                const data = await readFromSheet(CONTACTS_SHEET_NAME);
+                const contacts = data.slice(1).map((row, index) => sheetRowToContact(row, index));
                 
-                if (response.ok) {
-                    const contacts = await response.json();
-                    displayContacts(contacts);
-                    // 차트도 함께 업데이트
-                    createDailyChart(contacts);
-                    createServiceChart(contacts);
-                } else {
-                    contactsList.innerHTML = '<div class="error">데이터를 불러오는데 실패했습니다.</div>';
-                }
+                // 최신순 정렬
+                contacts.sort((a, b) => {
+                    const dateA = new Date(a.createdAt);
+                    const dateB = new Date(b.createdAt);
+                    return dateB - dateA;
+                });
+                
+                displayContacts(contacts);
+                // 차트도 함께 업데이트
+                createDailyChart(contacts);
+                createServiceChart(contacts);
             } catch (error) {
                 console.error('상담 신청 목록 로드 오류:', error);
                 contactsList.innerHTML = '<div class="error">서버 연결 오류가 발생했습니다.</div>';
@@ -491,12 +501,18 @@
             if (!checkAuthentication()) return;
             
             try {
-                const response = await fetch('/api/admin/contacts');
-                if (response.ok) {
-                    const contacts = await response.json();
-                    createDailyChart(contacts);
-                    createServiceChart(contacts);
-                }
+                const data = await readFromSheet(CONTACTS_SHEET_NAME);
+                const contacts = data.slice(1).map((row, index) => sheetRowToContact(row, index));
+                
+                // 최신순 정렬
+                contacts.sort((a, b) => {
+                    const dateA = new Date(a.createdAt);
+                    const dateB = new Date(b.createdAt);
+                    return dateB - dateA;
+                });
+                
+                createDailyChart(contacts);
+                createServiceChart(contacts);
             } catch (error) {
                 console.error('차트 데이터 로드 오류:', error);
             }
@@ -640,21 +656,32 @@
             if (!checkAuthentication()) return;
             
             try {
-                const response = await fetch(`/api/admin/contacts/${contactId}/read`, {
-                    method: 'PUT'
+                // Google Sheets에서 행 인덱스 찾기
+                const allData = await readFromSheet(CONTACTS_SHEET_NAME);
+                const rowIndex = allData.findIndex((row, index) => {
+                    if (index === 0) return false; // 헤더 제외
+                    return row[0] == contactId;
                 });
                 
-                if (response.ok) {
-                    // 성공 시 목록 새로고침
-                    loadStats();
-                    loadContacts();
-                    loadCharts();
-                } else {
-                    alert('읽음 처리에 실패했습니다.');
+                if (rowIndex === -1) {
+                    throw new Error('상담 신청 행을 찾을 수 없습니다.');
                 }
+                
+                // 현재 데이터 가져오기
+                const contact = sheetRowToContact(allData[rowIndex + 1], rowIndex);
+                contact.isRead = true;
+                
+                // 업데이트
+                const rowData = contactToSheetRow(contact);
+                await updateSheet(CONTACTS_SHEET_NAME, rowIndex + 1, rowData);
+                
+                // 성공 시 목록 새로고침
+                loadStats();
+                loadContacts();
+                loadCharts();
             } catch (error) {
                 console.error('읽음 처리 오류:', error);
-                alert('서버 오류가 발생했습니다.');
+                alert('서버 오류가 발생했습니다: ' + error.message);
             }
         }
     </script>
