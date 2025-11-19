@@ -55,33 +55,60 @@ function doGet(e) {
   return createCorsResponse({ error: 'Invalid action' });
 }
 
+// form-urlencoded 데이터 파싱 함수
+function parseFormData(contents) {
+  const params = {};
+  const pairs = contents.split('&');
+  for (let i = 0; i < pairs.length; i++) {
+    const pair = pairs[i].split('=');
+    const key = decodeURIComponent(pair[0]);
+    const value = pair[1] ? decodeURIComponent(pair[1].replace(/\+/g, ' ')) : '';
+    params[key] = value;
+  }
+  return params;
+}
+
 // 데이터 추가/수정/삭제
 function doPost(e) {
   // POST 데이터 파싱 (JSON 또는 form 데이터 모두 지원)
   let data;
   try {
     if (e.postData && e.postData.contents) {
-      // JSON 형식인 경우
       const contentType = e.postData.type || '';
+      
       if (contentType.indexOf('application/json') !== -1) {
+        // JSON 형식인 경우
         data = JSON.parse(e.postData.contents);
-      } else {
+      } else if (contentType.indexOf('application/x-www-form-urlencoded') !== -1 || 
+                 contentType.indexOf('form-urlencoded') !== -1) {
         // form-urlencoded 형식인 경우
+        const params = parseFormData(e.postData.contents);
         data = {
-          action: e.parameter.action,
-          sheetName: e.parameter.sheetName,
-          data: e.parameter.data ? JSON.parse(e.parameter.data) : null,
-          rowIndex: e.parameter.rowIndex ? parseInt(e.parameter.rowIndex) : null
+          action: params.action,
+          sheetName: params.sheetName,
+          data: params.data ? JSON.parse(params.data) : null,
+          rowIndex: params.rowIndex ? parseInt(params.rowIndex) : null
+        };
+      } else {
+        // 기본적으로 form-urlencoded로 처리
+        const params = parseFormData(e.postData.contents);
+        data = {
+          action: params.action,
+          sheetName: params.sheetName,
+          data: params.data ? JSON.parse(params.data) : null,
+          rowIndex: params.rowIndex ? parseInt(params.rowIndex) : null
         };
       }
-    } else {
-      // form 데이터로 전송된 경우 (GET 파라미터로)
+    } else if (e.parameter) {
+      // GET 파라미터로 전송된 경우 (폴백)
       data = {
         action: e.parameter.action,
         sheetName: e.parameter.sheetName,
         data: e.parameter.data ? JSON.parse(e.parameter.data) : null,
         rowIndex: e.parameter.rowIndex ? parseInt(e.parameter.rowIndex) : null
       };
+    } else {
+      return createCorsResponse({ error: 'No data received' });
     }
   } catch (error) {
     return createCorsResponse({ error: 'Invalid request data: ' + error.toString() });

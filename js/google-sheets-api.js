@@ -1,6 +1,6 @@
 // Google Sheets API 유틸리티
 // Google Apps Script Web App URL
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxebdYkWHKBUIaqKlB0F3-gSN6k8XFcMzu5uAYq1MB828Hw1r8cKdjGiRzbXXGSf-uLQg/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyvyfKhD0SbuDQJBZazVnpzqXtdRwipMaAG4jZXwJfqPOGws_-yMqRAE4t_ltWDmLlyyw/exec';
 
 /**
  * Google Sheets에 데이터 추가
