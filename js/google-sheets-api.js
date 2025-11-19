@@ -10,17 +10,20 @@ const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby5P8BOtp0yCN
  */
 async function addToSheet(sheetName, data) {
     try {
-        // Google Apps Script Web App은 첫 접근 시 리다이렉트를 하므로
-        // form-urlencoded 형식으로 전송하고 리다이렉트를 자동으로 따라갑니다
+        console.log('Sending data to Google Sheets:', { sheetName, data });
+        
+        // form-urlencoded 형식으로 전송
         const formData = new URLSearchParams();
         formData.append('action', 'add');
         formData.append('sheetName', sheetName);
         formData.append('data', JSON.stringify(data));
         
-        // 리다이렉트를 자동으로 따라가도록 설정
+        console.log('Form data:', formData.toString());
+        
+        // CORS 모드로 시도 (응답 확인 가능)
         const response = await fetch(GOOGLE_SCRIPT_URL, {
             method: 'POST',
-            mode: 'no-cors', // CORS 문제와 리다이렉트 문제를 피하기 위해 no-cors 사용
+            mode: 'cors',
             redirect: 'follow',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -28,18 +31,52 @@ async function addToSheet(sheetName, data) {
             body: formData.toString()
         });
         
-        // no-cors 모드에서는 response를 읽을 수 없지만, 
-        // 요청은 성공적으로 전송되었을 가능성이 높습니다
-        // Google Apps Script는 데이터를 저장하고 응답을 반환하지만
-        // no-cors 모드에서는 읽을 수 없으므로 항상 성공으로 처리
-        return { success: true, message: 'Data submitted successfully' };
+        console.log('Response status:', response.status);
+        console.log('Response ok:', response.ok);
+        console.log('Response redirected:', response.redirected);
+        
+        if (response.ok) {
+            const result = await response.json();
+            console.log('Response data:', result);
+            return result;
+        } else {
+            // 응답이 실패했지만 텍스트를 읽어서 오류 확인
+            const errorText = await response.text();
+            console.error('Response error:', errorText);
+            throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+        }
         
     } catch (error) {
         console.error('Error adding to sheet:', error);
-        // 네트워크 오류인 경우에도 데이터는 전송되었을 수 있으므로
-        // 사용자에게는 성공 메시지를 표시합니다
-        // (실제로는 Google Sheets에서 확인 필요)
-        return { success: true, message: 'Data may have been submitted' };
+        
+        // CORS 오류인 경우 no-cors로 재시도
+        if (error.message.includes('CORS') || error.message.includes('Failed to fetch')) {
+            console.log('Retrying with no-cors mode...');
+            try {
+                const formData = new URLSearchParams();
+                formData.append('action', 'add');
+                formData.append('sheetName', sheetName);
+                formData.append('data', JSON.stringify(data));
+                
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    redirect: 'follow',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: formData.toString()
+                });
+                
+                // no-cors에서는 응답을 읽을 수 없지만 요청은 전송됨
+                return { success: true, message: 'Data submitted (no-cors mode)' };
+            } catch (retryError) {
+                console.error('Retry also failed:', retryError);
+                throw error;
+            }
+        }
+        
+        throw error;
     }
 }
 

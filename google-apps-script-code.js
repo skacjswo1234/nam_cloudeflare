@@ -75,9 +75,16 @@ function doPost(e) {
   let requestData;
   
   try {
+    // 디버깅: 받은 데이터 로깅
+    Logger.log('POST received');
+    Logger.log('postData: ' + JSON.stringify(e.postData));
+    Logger.log('parameter: ' + JSON.stringify(e.parameter));
+    
     // POST 데이터 파싱
     if (e.postData && e.postData.contents) {
       const contentType = e.postData.type || '';
+      Logger.log('Content-Type: ' + contentType);
+      Logger.log('Contents: ' + e.postData.contents);
       
       if (contentType.indexOf('application/json') !== -1) {
         // JSON 형식
@@ -95,20 +102,26 @@ function doPost(e) {
         rowIndex: e.parameter.rowIndex ? parseInt(e.parameter.rowIndex) : null
       };
     } else {
+      Logger.log('No data received');
       return createResponse({ error: 'No data received' });
     }
+    
+    Logger.log('Parsed data: ' + JSON.stringify(requestData));
     
     const action = requestData.action;
     const sheetName = requestData.sheetName;
     
     if (!action || !sheetName) {
+      Logger.log('Missing action or sheetName');
       return createResponse({ error: 'Missing action or sheetName' });
     }
     
     const sheet = getSheet(sheetName);
+    Logger.log('Sheet retrieved: ' + sheetName);
     
     // 액션별 처리
     if (action === 'add') {
+      Logger.log('Handling add action');
       return handleAdd(sheet, requestData.data);
     } else if (action === 'update') {
       return handleUpdate(sheet, requestData.rowIndex, requestData.data);
@@ -119,6 +132,8 @@ function doPost(e) {
     }
     
   } catch (error) {
+    Logger.log('Error in doPost: ' + error.toString());
+    Logger.log('Stack: ' + error.stack);
     return createResponse({ error: 'Error: ' + error.toString() });
   }
 }
@@ -157,8 +172,11 @@ function parseFormData(contents) {
 // 데이터 추가
 function handleAdd(sheet, data) {
   try {
+    Logger.log('handleAdd called with data: ' + JSON.stringify(data));
+    
     // ID 자동 생성
     const lastRow = sheet.getLastRow();
+    Logger.log('Last row: ' + lastRow);
     let newId = 1;
     
     if (lastRow > 1) {
@@ -166,6 +184,8 @@ function handleAdd(sheet, data) {
       const ids = idRange.map(row => parseInt(row[0]) || 0);
       newId = Math.max(...ids, 0) + 1;
     }
+    
+    Logger.log('New ID: ' + newId);
     
     // 데이터 배열 준비
     let rowData;
@@ -176,14 +196,21 @@ function handleAdd(sheet, data) {
         rowData[0] = newId;
       }
     } else {
+      Logger.log('Data is not an array: ' + typeof data);
       return createResponse({ error: 'Data must be an array' });
     }
+    
+    Logger.log('Row data to append: ' + JSON.stringify(rowData));
     
     // 행 추가
     sheet.appendRow(rowData);
     
+    Logger.log('Row appended successfully');
+    
     return createResponse({ success: true, id: newId });
   } catch (error) {
+    Logger.log('Error in handleAdd: ' + error.toString());
+    Logger.log('Stack: ' + error.stack);
     return createResponse({ error: 'Add error: ' + error.toString() });
   }
 }
