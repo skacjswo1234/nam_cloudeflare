@@ -22,9 +22,14 @@ const NOTIFICATION_EMAIL = '9078807@naver.com';
 const IFTTT_WEBHOOK_KEY = ''; // 예: 'abc123xyz456'
 const IFTTT_EVENT_NAME = 'new_consultation'; // 위에서 설정한 Event name
 
+// 텔레그램 알림 설정
+const TELEGRAM_BOT_TOKEN = '8323818112:AAHMFpJkFfZXVZh2krVharDpltHtkroowyI';
+const TELEGRAM_CHAT_ID = '7973213508';
+
 // 알림 사용 여부
-const ENABLE_EMAIL_NOTIFICATION = true;  // 이메일 알림 사용
-const ENABLE_IFTTT_NOTIFICATION = false; // IFTTT 알림 사용 (키 설정 후 true로 변경)
+const ENABLE_EMAIL_NOTIFICATION = true;     // 이메일 알림 사용
+const ENABLE_TELEGRAM_NOTIFICATION = true;  // 텔레그램 알림 사용
+const ENABLE_IFTTT_NOTIFICATION = false;    // IFTTT 알림 사용 (유료)
 
 // 스프레드시트 가져오기
 function getSpreadsheet() {
@@ -35,22 +40,22 @@ function getSpreadsheet() {
 function getSheet(sheetName) {
   const ss = getSpreadsheet();
   let sheet = ss.getSheetByName(sheetName);
-  
+
   if (!sheet) {
     sheet = ss.insertSheet(sheetName);
-    
+
     // Contacts 시트 헤더 설정
     if (sheetName === 'Contacts') {
       sheet.getRange(1, 1, 1, 8).setValues([[
         'ID', '이름', '이메일', '전화번호', '서비스', '메시지', '읽음', '생성일시'
       ]]);
-      
+
       // 헤더 스타일
       const headerRange = sheet.getRange(1, 1, 1, 8);
       headerRange.setFontWeight('bold');
       headerRange.setBackground('#f0f0f0');
       headerRange.setFontSize(11);
-      
+
       // 컬럼 너비 조정
       sheet.setColumnWidth(1, 60);   // ID
       sheet.setColumnWidth(2, 100);  // 이름
@@ -62,7 +67,7 @@ function getSheet(sheetName) {
       sheet.setColumnWidth(8, 180);  // 생성일시
     }
   }
-  
+
   return sheet;
 }
 
@@ -77,7 +82,7 @@ function createResponse(data) {
 function doGet(e) {
   const action = e.parameter.action;
   const sheetName = e.parameter.sheetName;
-  
+
   if (action === 'read' && sheetName) {
     try {
       const sheet = getSheet(sheetName);
@@ -87,26 +92,26 @@ function doGet(e) {
       return createResponse({ error: error.toString() });
     }
   }
-  
+
   return createResponse({ error: 'Invalid action or missing sheetName' });
 }
 
 // POST 요청 처리 (데이터 추가/수정/삭제)
 function doPost(e) {
   let requestData;
-  
+
   try {
     // 디버깅: 받은 데이터 로깅
     Logger.log('POST received');
     Logger.log('postData: ' + JSON.stringify(e.postData));
     Logger.log('parameter: ' + JSON.stringify(e.parameter));
-    
+
     // POST 데이터 파싱
     if (e.postData && e.postData.contents) {
       const contentType = e.postData.type || '';
       Logger.log('Content-Type: ' + contentType);
       Logger.log('Contents: ' + e.postData.contents);
-      
+
       if (contentType.indexOf('application/json') !== -1) {
         // JSON 형식
         requestData = JSON.parse(e.postData.contents);
@@ -126,20 +131,20 @@ function doPost(e) {
       Logger.log('No data received');
       return createResponse({ error: 'No data received' });
     }
-    
+
     Logger.log('Parsed data: ' + JSON.stringify(requestData));
-    
+
     const action = requestData.action;
     const sheetName = requestData.sheetName;
-    
+
     if (!action || !sheetName) {
       Logger.log('Missing action or sheetName');
       return createResponse({ error: 'Missing action or sheetName' });
     }
-    
+
     const sheet = getSheet(sheetName);
     Logger.log('Sheet retrieved: ' + sheetName);
-    
+
     // 액션별 처리
     if (action === 'add') {
       Logger.log('Handling add action');
@@ -151,7 +156,7 @@ function doPost(e) {
     } else {
       return createResponse({ error: 'Invalid action: ' + action });
     }
-    
+
   } catch (error) {
     Logger.log('Error in doPost: ' + error.toString());
     Logger.log('Stack: ' + error.stack);
@@ -163,7 +168,7 @@ function doPost(e) {
 function parseFormData(contents) {
   const params = {};
   const pairs = contents.split('&');
-  
+
   for (let i = 0; i < pairs.length; i++) {
     const pair = pairs[i].split('=');
     if (pair.length === 2) {
@@ -172,7 +177,7 @@ function parseFormData(contents) {
       params[key] = value;
     }
   }
-  
+
   // data 필드가 JSON 문자열인 경우 파싱
   if (params.data) {
     try {
@@ -181,12 +186,12 @@ function parseFormData(contents) {
       // JSON이 아니면 그대로 사용
     }
   }
-  
+
   // rowIndex를 숫자로 변환
   if (params.rowIndex) {
     params.rowIndex = parseInt(params.rowIndex);
   }
-  
+
   return params;
 }
 
@@ -194,20 +199,20 @@ function parseFormData(contents) {
 function handleAdd(sheet, data) {
   try {
     Logger.log('handleAdd called with data: ' + JSON.stringify(data));
-    
+
     // ID 자동 생성
     const lastRow = sheet.getLastRow();
     Logger.log('Last row: ' + lastRow);
     let newId = 1;
-    
+
     if (lastRow > 1) {
       const idRange = sheet.getRange(2, 1, lastRow - 1, 1).getValues();
       const ids = idRange.map(row => parseInt(row[0]) || 0);
       newId = Math.max(...ids, 0) + 1;
     }
-    
+
     Logger.log('New ID: ' + newId);
-    
+
     // 데이터 배열 준비
     let rowData;
     if (Array.isArray(data)) {
@@ -220,21 +225,21 @@ function handleAdd(sheet, data) {
       Logger.log('Data is not an array: ' + typeof data);
       return createResponse({ error: 'Data must be an array' });
     }
-    
+
     Logger.log('Row data to append: ' + JSON.stringify(rowData));
-    
+
     // 행 추가
     sheet.appendRow(rowData);
-    
+
     Logger.log('Row appended successfully');
-    
+
     // 알림 전송 (비동기로 실행하여 응답 지연 방지)
     try {
       sendNotification(rowData);
     } catch (notificationError) {
       Logger.log('Notification error (non-blocking): ' + notificationError.toString());
     }
-    
+
     return createResponse({ success: true, id: newId });
   } catch (error) {
     Logger.log('Error in handleAdd: ' + error.toString());
@@ -249,13 +254,13 @@ function handleUpdate(sheet, rowIndex, data) {
     if (!rowIndex || rowIndex < 2) {
       return createResponse({ error: 'Invalid row index' });
     }
-    
+
     if (!Array.isArray(data)) {
       return createResponse({ error: 'Data must be an array' });
     }
-    
+
     sheet.getRange(rowIndex, 1, 1, data.length).setValues([data]);
-    
+
     return createResponse({ success: true });
   } catch (error) {
     return createResponse({ error: 'Update error: ' + error.toString() });
@@ -268,9 +273,9 @@ function handleDelete(sheet, rowIndex) {
     if (!rowIndex || rowIndex < 2) {
       return createResponse({ error: 'Invalid row index' });
     }
-    
+
     sheet.deleteRow(rowIndex);
-    
+
     return createResponse({ success: true });
   } catch (error) {
     return createResponse({ error: 'Delete error: ' + error.toString() });
@@ -288,7 +293,7 @@ function sendNotification(rowData) {
     Logger.log('Invalid rowData for notification');
     return;
   }
-  
+
   const id = rowData[0];
   const name = rowData[1] || '이름 없음';
   const email = rowData[2] || '이메일 없음';
@@ -296,7 +301,7 @@ function sendNotification(rowData) {
   const service = rowData[4] || '서비스 없음';
   const message = rowData[5] || '메시지 없음';
   const createdAt = rowData[7] || new Date().toISOString();
-  
+
   // 서비스 이름 변환
   const serviceNames = {
     'responsive': '반응형 웹사이트',
@@ -307,11 +312,11 @@ function sendNotification(rowData) {
     'custom': '맞춤 개발'
   };
   const serviceName = serviceNames[service] || service;
-  
+
   // 날짜 포맷팅
   const date = new Date(createdAt);
   const formattedDate = Utilities.formatDate(date, Session.getScriptTimeZone(), 'yyyy-MM-dd HH:mm:ss');
-  
+
   // 이메일 알림
   if (ENABLE_EMAIL_NOTIFICATION && NOTIFICATION_EMAIL) {
     try {
@@ -336,24 +341,24 @@ function sendNotification(rowData) {
 Google Sheets에서 확인하기:
 https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/edit#gid=0
       `.trim();
-      
+
       MailApp.sendEmail({
         to: NOTIFICATION_EMAIL,
         subject: subject,
         body: body
       });
-      
+
       Logger.log('Email notification sent to: ' + NOTIFICATION_EMAIL);
     } catch (emailError) {
       Logger.log('Email notification error: ' + emailError.toString());
     }
   }
-  
+
   // IFTTT Webhook 알림
   if (ENABLE_IFTTT_NOTIFICATION && IFTTT_WEBHOOK_KEY && IFTTT_EVENT_NAME) {
     try {
       const iftttUrl = `https://maker.ifttt.com/trigger/${IFTTT_EVENT_NAME}/with/key/${IFTTT_WEBHOOK_KEY}`;
-      
+
       // IFTTT Webhook은 최대 3개의 value를 전송할 수 있음
       // value1, value2, value3로 데이터 전송
       const payload = {
@@ -361,15 +366,15 @@ https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/edit#gid=0
         'value2': `${name} (${phone})`,
         'value3': `${serviceName} - ${message.substring(0, 100)}${message.length > 100 ? '...' : ''}`
       };
-      
+
       const options = {
         'method': 'post',
         'contentType': 'application/json',
         'payload': JSON.stringify(payload)
       };
-      
+
       UrlFetchApp.fetch(iftttUrl, options);
-      
+
       Logger.log('IFTTT notification sent');
     } catch (iftttError) {
       Logger.log('IFTTT notification error: ' + iftttError.toString());

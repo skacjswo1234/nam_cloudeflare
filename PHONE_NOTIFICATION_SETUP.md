@@ -66,21 +66,6 @@ Telegram은 실시간 푸시 알림이 가능하고 무료입니다.
      ```
    - 예: `https://api.telegram.org/bot123456789:ABCdefGHIjklMNOpqrsTUVwxyz/getUpdates`
    - JSON 응답에서 `"chat":{"id":123456789}` 부분의 숫자가 Chat ID입니다
-
-#### 3단계: Google Apps Script 코드 설정
-
-1. **`google-apps-script-code.js` 파일 열기**
-2. **다음 변수 수정:**
-   ```javascript
-   const TELEGRAM_BOT_TOKEN = '여기에_봇_토큰_붙여넣기';
-   const TELEGRAM_CHAT_ID = '여기에_chat_id_붙여넣기';
-   const ENABLE_TELEGRAM_NOTIFICATION = true; // false를 true로 변경
-   ```
-
-3. **코드 배포**
-   - Apps Script 편집기에 코드 붙여넣기
-   - 저장
-   - `배포` > `배포 관리` > 기존 배포 편집
    - `새 버전` 체크하지 않고 배포
 
 #### 4단계: 테스트
