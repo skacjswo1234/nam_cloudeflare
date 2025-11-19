@@ -359,8 +359,6 @@ https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/edit#gid=0
     try {
       const iftttUrl = `https://maker.ifttt.com/trigger/${IFTTT_EVENT_NAME}/with/key/${IFTTT_WEBHOOK_KEY}`;
 
-      // IFTTT Webhook은 최대 3개의 value를 전송할 수 있음
-      // value1, value2, value3로 데이터 전송
       const payload = {
         'value1': `새로운 상담 신청 #${id}`,
         'value2': `${name} (${phone})`,
@@ -378,6 +376,39 @@ https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/edit#gid=0
       Logger.log('IFTTT notification sent');
     } catch (iftttError) {
       Logger.log('IFTTT notification error: ' + iftttError.toString());
+    }
+  }
+
+  // 텔레그램 알림
+  if (ENABLE_TELEGRAM_NOTIFICATION && TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
+    try {
+      const telegramUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+
+      // Markdown 모드 제거하고 일반 텍스트로 전송 (특수문자 오류 방지)
+      const text = `🔔 새로운 상담 신청\n\n` +
+        `🆔 신청 번호: ${id}\n` +
+        `👤 이름: ${name}\n` +
+        `📞 전화번호: ${phone}\n` +
+        `💼 서비스: ${serviceName}\n` +
+        `💬 메시지: ${message}\n` +
+        `📅 접수 시간: ${formattedDate}`;
+
+      const payload = {
+        'chat_id': TELEGRAM_CHAT_ID,
+        'text': text
+      };
+
+      const options = {
+        'method': 'post',
+        'contentType': 'application/json',
+        'payload': JSON.stringify(payload)
+      };
+
+      UrlFetchApp.fetch(telegramUrl, options);
+
+      Logger.log('Telegram notification sent');
+    } catch (telegramError) {
+      Logger.log('Telegram notification error: ' + telegramError.toString());
     }
   }
 }
