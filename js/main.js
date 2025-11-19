@@ -97,9 +97,20 @@ function initContactForm() {
             
             // Google Sheets에 추가
             addToSheet('Contacts', contactToSheetRow(contactData))
-                .then(() => {
-                    showSuccessMessage();
-                    this.reset();
+                .then((result) => {
+                    console.log('Add result:', result);
+                    if (result && result.success) {
+                        showSuccessMessage();
+                        this.reset();
+                    } else if (result && result.error) {
+                        console.error('Server error:', result.error);
+                        showErrorMessage('상담 신청에 실패했습니다: ' + result.error);
+                    } else {
+                        // no-cors 모드에서는 응답을 확인할 수 없지만 요청은 전송됨
+                        showSuccessMessage();
+                        this.reset();
+                        console.log('Data submitted (response not available in no-cors mode)');
+                    }
                 })
                 .catch(error => {
                     console.error('Error:', error);
