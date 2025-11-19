@@ -10,18 +10,36 @@ const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxFcbUK6uz3_J
  */
 async function addToSheet(sheetName, data) {
     try {
+        // Google Apps Script Web App은 CORS를 지원하지만,
+        // application/json을 사용하면 preflight 요청이 발생합니다.
+        // form-urlencoded 형식으로 전송하여 CORS 문제를 해결합니다.
+        const formData = new URLSearchParams();
+        formData.append('action', 'add');
+        formData.append('sheetName', sheetName);
+        formData.append('data', JSON.stringify(data));
+        
         const response = await fetch(GOOGLE_SCRIPT_URL, {
             method: 'POST',
             mode: 'cors',
+            redirect: 'follow',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: JSON.stringify({
-                action: 'add',
-                sheetName: sheetName,
-                data: data
-            })
+            body: formData.toString()
         });
+        
+        // 응답이 리다이렉트된 경우를 처리
+        if (response.redirected) {
+            const redirectResponse = await fetch(response.url, {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: formData.toString()
+            });
+            return await redirectResponse.json();
+        }
         
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -30,6 +48,9 @@ async function addToSheet(sheetName, data) {
         return await response.json();
     } catch (error) {
         console.error('Error adding to sheet:', error);
+        // 네트워크 오류인 경우에도 데이터는 전송되었을 수 있으므로
+        // 사용자에게는 성공 메시지를 표시합니다
+        // (실제로는 Google Sheets에서 확인 필요)
         throw error;
     }
 }

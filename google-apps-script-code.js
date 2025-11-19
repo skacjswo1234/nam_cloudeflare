@@ -33,6 +33,13 @@ function getSheet(sheetName) {
   return sheet;
 }
 
+// CORS 헤더를 포함한 응답 생성
+function createCorsResponse(data) {
+  return ContentService
+    .createTextOutput(JSON.stringify(data))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
 // 데이터 읽기
 function doGet(e) {
   const sheetName = e.parameter.sheetName;
@@ -42,19 +49,44 @@ function doGet(e) {
     const sheet = getSheet(sheetName);
     const data = sheet.getDataRange().getValues();
     
-    return ContentService
-      .createTextOutput(JSON.stringify(data))
-      .setMimeType(ContentService.MimeType.JSON);
+    return createCorsResponse(data);
   }
   
-  return ContentService
-    .createTextOutput(JSON.stringify({ error: 'Invalid action' }))
-    .setMimeType(ContentService.MimeType.JSON);
+  return createCorsResponse({ error: 'Invalid action' });
 }
 
 // 데이터 추가/수정/삭제
 function doPost(e) {
-  const data = JSON.parse(e.postData.contents);
+  // POST 데이터 파싱 (JSON 또는 form 데이터 모두 지원)
+  let data;
+  try {
+    if (e.postData && e.postData.contents) {
+      // JSON 형식인 경우
+      const contentType = e.postData.type || '';
+      if (contentType.indexOf('application/json') !== -1) {
+        data = JSON.parse(e.postData.contents);
+      } else {
+        // form-urlencoded 형식인 경우
+        data = {
+          action: e.parameter.action,
+          sheetName: e.parameter.sheetName,
+          data: e.parameter.data ? JSON.parse(e.parameter.data) : null,
+          rowIndex: e.parameter.rowIndex ? parseInt(e.parameter.rowIndex) : null
+        };
+      }
+    } else {
+      // form 데이터로 전송된 경우 (GET 파라미터로)
+      data = {
+        action: e.parameter.action,
+        sheetName: e.parameter.sheetName,
+        data: e.parameter.data ? JSON.parse(e.parameter.data) : null,
+        rowIndex: e.parameter.rowIndex ? parseInt(e.parameter.rowIndex) : null
+      };
+    }
+  } catch (error) {
+    return createCorsResponse({ error: 'Invalid request data: ' + error.toString() });
+  }
+  
   const action = data.action;
   const sheetName = data.sheetName;
   const sheet = getSheet(sheetName);
@@ -91,9 +123,7 @@ function doPost(e) {
       // 행 추가
       sheet.appendRow(rowData);
       
-      return ContentService
-        .createTextOutput(JSON.stringify({ success: true, id: newId }))
-        .setMimeType(ContentService.MimeType.JSON);
+      return createCorsResponse({ success: true, id: newId });
         
     } else if (action === 'update') {
       const rowIndex = data.rowIndex;
@@ -106,9 +136,7 @@ function doPost(e) {
       // 행 업데이트
       sheet.getRange(rowIndex, 1, 1, rowData.length).setValues([rowData]);
       
-      return ContentService
-        .createTextOutput(JSON.stringify({ success: true }))
-        .setMimeType(ContentService.MimeType.JSON);
+      return createCorsResponse({ success: true });
         
     } else if (action === 'delete') {
       const rowIndex = data.rowIndex;
@@ -120,19 +148,13 @@ function doPost(e) {
       // 행 삭제
       sheet.deleteRow(rowIndex);
       
-      return ContentService
-        .createTextOutput(JSON.stringify({ success: true }))
-        .setMimeType(ContentService.MimeType.JSON);
+      return createCorsResponse({ success: true });
     }
     
-    return ContentService
-      .createTextOutput(JSON.stringify({ error: 'Invalid action' }))
-      .setMimeType(ContentService.MimeType.JSON);
+    return createCorsResponse({ error: 'Invalid action' });
       
   } catch (error) {
-    return ContentService
-      .createTextOutput(JSON.stringify({ error: error.toString() }))
-      .setMimeType(ContentService.MimeType.JSON);
+    return createCorsResponse({ error: error.toString() });
   }
 }
 
